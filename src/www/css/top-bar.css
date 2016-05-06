@@ -1,0 +1,29 @@
+.cell {
+  text-align: center;
+  height: 275px;
+  margin:-4px;
+  line-height: 200px;
+  opacity: 0.9;
+  transition: opacity 3.4s ease-out 1s;
+  -webkit-transition: opacity 3.4s ease-out 1s;
+  -moz-transition: opacity 3.4s ease-out 1s;
+  -o-transition: opacity 3.4s ease-out 1s;
+  -ms-transition: opacity 3.4s ease-out 1s;
+}
+
+.cell:hover {
+  opacity: 1;
+}
+
+.cell-a {
+	background: #56cce1 !important;
+}
+.cell-b {
+	background: #2cbfd9 !important;
+}
+.cell-c {
+	background: #2ca6d9 !important;
+}
+.cell-d {
+	background: #1b90da !important;
+}

@@ -1,0 +1,25 @@
+.app-tabs {
+  display: none;
+  max-width: 1000px; 
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (min-width: 840px) {
+  .app-tabs {
+    display: block;
+  }
+}
+
+.app-tabs-icon {
+  display: block;
+}
+@media (min-width: 840px) {
+  .app-tabs-icon {
+    display: none;
+  }
+}
+
+.app-tabs-icon-icon {
+  margin-top: 8px;
+  margin-bottom: auto;
+}
