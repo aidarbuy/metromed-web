@@ -14,7 +14,7 @@ const styles = {
     return {
       top: '89%',
       fontWeight: 300,
-      fontSize: '60',
+      fontSize: 60,
       color: 'rgb(86, 204, 225)',
       whiteSpace: 'nowrap',
       left: '10%',
