@@ -1,7 +1,7 @@
 import React       from 'react';
 import Helmet      from 'react-helmet';
 import dataDoctors from "../data/doctors";
-import DoctorCard  from '../components/DoctorCard';
+import DoctorCard  from '../components/cards/DoctorCard';
 
 export default () => (
   <section>

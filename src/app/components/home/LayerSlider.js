@@ -1,4 +1,8 @@
 import React from 'react';
+import image1 from '../../images/layerslider/image-1.jpg';
+import image1Blur from '../../images/layerslider/image-1-blur2.jpg';
+import image2 from '../../images/layerslider/image-2.jpg';
+import image3 from '../../images/layerslider/image-3.jpg';
 
 const styles = {
   main: {
@@ -75,7 +79,6 @@ styles.slideA['hours'] = {
   color: 'rgb(27, 144, 218)',
 }
 
-
 styles['slideB'] = {
   fullSpectrum: {
     top: 70, 
@@ -151,7 +154,6 @@ styles['slideB'] = {
 
 for (var i = 0; i <= 5; i++) {
   var plus = styles.getPlus()
-
   switch (i) {
     case 0: 
       plus.top = 195;
@@ -172,7 +174,6 @@ for (var i = 0; i <= 5; i++) {
       plus.top = 495; 
       break;
   }
-
   // console.debug(plus.top)
   styles.slideB['pluses'].push(plus)
 }
@@ -191,8 +192,8 @@ const LayerSlider = React.createClass({
     return (
       <div id="layerslider" ref="layerslider" style={styles.main}>
         <div className="ls-slide" data-ls="slidedelay:23000; transition2d: 15-18, 59-61, 90, 91, 30-32, 69-72, 40-43, 92, 96, 97, 75-79, 81, 82, 86, 87-89, 93-95, 111, 103-105, 109, 112">
-          <img className="ls-bg" alt="Slide background" src="images/layerslider/image-1.jpg" />
-          <img className="ls-layer" alt="Slide background blur" style={styles.bgBlur} src="images/layerslider/image-1-blur2.jpg" data-ls="offsetxin:0; delayin:0000; durationin:2000" />
+          <img className="ls-bg" alt="Slide background" src={image1} />
+          <img className="ls-layer" alt="Slide background blur" style={styles.bgBlur} src={image1Blur} data-ls="offsetxin:0; delayin:0000; durationin:2000" />
           <h2 className="ls-l" style={styles.slideA.we}       data-ls="delayin: 0500; offsetxin:0; offsetyin:10; durationin:2000; offsetxout:0; offsetyout:0; durationout:2000; showuntil:4000;">WE</h2>
           <h2 className="ls-l" style={styles.slideA.care}     data-ls="delayin: 0900; offsetxin:0; offsetyin:10; durationin:2000; offsetxout:0; offsetxout:0; durationout:2000; showuntil:4000;">CARE</h2>
           <h2 className="ls-l" style={styles.slideA.about}    data-ls="delayin: 1300; offsetxin:0; offsetyin:10; durationin:2000; offsetxout:0; offsetxout:0; durationout:2000; showuntil:4000;">ABOUT</h2>
@@ -208,7 +209,7 @@ const LayerSlider = React.createClass({
           transition2d: 15-18, 59-61, 90, 91, 30-32, 69-72, 40-43, 92, 96,
           97, 75-79, 81, 82, 86, 87-89, 93-95, 111, 103-105, 109, 112"
         >
-          <img className="ls-bg" src="images/layerslider/image-2.jpg" alt="Slide background" />
+          <img className="ls-bg" src={image2} alt="Slide background" />
           <p className="ls-l" style={styles.slideB.fullSpectrum}
             data-ls="offsetxin:0; durationin:2000; delayin:500; easingin:easeOutElastic;
               rotatexin:-90; transformoriginin:50% top 0; offsetxout:-200; durationout:1000;"
@@ -250,7 +251,7 @@ const LayerSlider = React.createClass({
           transition2d: 15-18, 59-61, 90, 91, 30-32, 69-72, 40-43, 92, 96,
             97, 75-79, 81, 82, 86, 87-89, 93-95, 111, 103-105, 109, 112"
         >
-          <img className="ls-bg" src="images/layerslider/image-3.jpg" alt="Slide background" />
+          <img className="ls-bg" src={image3} alt="Slide background" />
 
           <h4 className="ls-l" style={{ top: 100, left: 125, whiteSpace: 'nowrap',
             fontSize: 70, fontWeight: 'normal', color: '#F50057' }}

@@ -14,6 +14,7 @@ import ContentInbox from 'material-ui/svg-icons/content/inbox';
 import ContentDrafts from 'material-ui/svg-icons/content/drafts';
 import ContentSend from 'material-ui/svg-icons/content/send';
 import Divider from 'material-ui/Divider';
+import xRay from '../../images/gallery/x-ray.jpg';
 
 module.exports = () => (
   <Card>
@@ -26,7 +27,7 @@ module.exports = () => (
         subtitle="We have laboratory and pharmacy as well" 
       ></CardTitle>
     }>
-      <img src="images/gallery/x-ray.jpg" />
+      <img src={xRay} />
     </CardMedia>
     <CardText>
       <List>

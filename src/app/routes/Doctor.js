@@ -1,11 +1,9 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 import { Link } from 'react-router';
-
 import Button from 'material-ui/FlatButton';
 import DoctorsIcon from 'material-ui/svg-icons/navigation/arrow-back';
 import * as Colors from 'material-ui/styles/colors';
-
 import doctors from '../data/doctors';
 
 const styles = {
@@ -36,7 +34,6 @@ export default React.createClass({
   render() {
     const { id } = this.props.params;
     const doctor = getDoctor(id);
-    const src = "/images/doctors/" + doctor.img.big;
     const description = doctor.description.map((p, i) => (
       <div key={i} className="doctor-text"
       	dangerouslySetInnerHTML={{__html:p}}/>
@@ -63,7 +60,7 @@ export default React.createClass({
           Doctor {doctor.firstname} {doctor.lastname}
         </h4>
 
-        <img width="100%" src={src}/>
+        <img width="100%" src={require("../images/doctors/" + doctor.img.big)}/>
         {description}
       </article>
     )

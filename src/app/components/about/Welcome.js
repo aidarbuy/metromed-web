@@ -8,6 +8,8 @@ import FlatButton  from 'material-ui/FlatButton';
 import CardText    from 'material-ui/Card/CardText';
 import Conditions  from './Conditions';
 
+import threeMedics from '../../images/team/three-medics.jpg';
+
 module.exports = () => (
   <Card>
     <CardTitle 
@@ -21,7 +23,7 @@ module.exports = () => (
         subtitle="members of our team">
       </CardTitle>
     }>
-      <img src="images/team/three-medics.jpg" />
+      <img src={threeMedics} />
     </CardMedia>
 
     <CardText style={{textAlign:'left'}}>

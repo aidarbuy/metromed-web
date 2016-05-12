@@ -3,6 +3,8 @@ import Tabs  from 'material-ui/Tabs';
 import Tab   from 'material-ui/Tabs/Tab';
 import * as Colors from 'material-ui/styles/colors';
 
+require('../styles/app-tabs.scss');
+
 export default React.createClass({
   contextTypes: {
     store:  React.PropTypes.object,

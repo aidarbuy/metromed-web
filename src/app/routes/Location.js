@@ -1,6 +1,6 @@
 import React 	from 'react';
 import Helmet from 'react-helmet';
-import GMaps 	from '../components/GoogleMaps';
+import GMaps 	from '../components/maps/GoogleMaps';
 
 export default () => (
   <section>

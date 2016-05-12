@@ -11,6 +11,36 @@ import IconAidKit   from '../icons/IconAidKit';
 import IconImages   from '../icons/IconImages';
 import IconHistory  from '../icons/IconHistory';
 import { cyan500, pink500 } from 'material-ui/styles/colors';
+import dataCustomServices   from '../../data/custom-services';
+
+require('../../styles/layout.scss');
+
+export default React.createClass({
+  getIcon(i) {
+    switch (i) {
+      case 0: return <IconHeart styles={styles.icon} />;
+      case 1: return <IconAidKit styles={styles.icon} />;
+      case 2: return <IconImages styles={styles.icon} />;
+      case 3: return <IconHistory styles={styles.icon} />;
+    }
+  },
+  render() {
+    const customServices = dataCustomServices.map((item, i) => {
+      const icon = this.getIcon(i);
+      return (
+        <div className="flex-item" key={i}>
+          <Card style={styles.card}>
+            <CardMedia style={styles.cardMedia}>{icon}</CardMedia>
+            <CardTitle style={styles.cardTitle}>{item.name}</CardTitle>
+            <CardText style={styles.cardText}><p style={{margin:0, padding:0}} dangerouslySetInnerHTML={{__html: item.desc}} /></CardText>
+            <CardActions><RaisedButton label={item.button} linkButton={true} href={item.href}/></CardActions>
+          </Card>
+        </div>
+      );
+    });
+    return <div className="flex-container">{customServices}</div>;
+  }
+});
 
 const styles = {
   card : {
@@ -38,14 +68,6 @@ const styles = {
     // border:'1px solid blue',
     fontSize:16,
   },
-  p : {
-    margin:0,
-    padding:0,
-    // background:'yellow',
-  },
-  cardActions : {
-    // border:'1px solid orange',
-  },
   icon : {
     color:cyan500,
     hover:pink500,
@@ -54,72 +76,3 @@ const styles = {
     height:70,
   }
 };
-
-export default () => (
-  <div className="flex-container">
-    <div className="flex-item">
-      <Card style={styles.card}>
-        <CardMedia style={styles.cardMedia}>
-          <IconHeart styles={styles.icon}/>
-        </CardMedia>
-        <CardTitle style={styles.cardTitle}>
-          <span>Cardio Health</span>
-        </CardTitle>
-        <CardText style={styles.cardText}>
-          <p style={styles.p}>Our clinic is equipped with <strong>EKG</strong>, <strong>X-ray</strong> and <strong>Laboratory</strong>.</p>
-        </CardText>
-        <CardActions style={styles.cardActions}>
-          <RaisedButton label="About our clinic" linkButton={true} href="/about"/>
-        </CardActions>
-      </Card>
-    </div>
-    <div className="flex-item">
-      <Card style={styles.card}>
-        <CardMedia style={styles.cardMedia}>
-          <IconAidKit styles={styles.icon}/>
-        </CardMedia>
-        <CardTitle style={styles.cardTitle}>
-          <span>Medical Treatment</span>
-        </CardTitle>
-        <CardText style={styles.cardText}>
-          <p style={styles.p}>We administer <strong>breathing treatments</strong>, repair <strong>lacerations</strong>, dispense <strong>medications</strong> intravenously, remove <strong>foreign objects</strong> from the eyes, and more.</p>
-        </CardText>
-        <CardActions style={styles.cardActions}>
-          <RaisedButton label="Check our services" linkButton={true} href="/services"/>
-        </CardActions>
-      </Card>
-    </div>
-    <div className="flex-item">
-      <Card style={styles.card}>
-        <CardMedia style={styles.cardMedia}>
-          <IconImages styles={styles.icon}/>
-        </CardMedia>
-        <CardTitle style={styles.cardTitle}>
-          <span>Photo Gallery</span>
-        </CardTitle>
-        <CardText style={styles.cardText}>
-          <p style={styles.p}>Check out our pictures!</p>
-        </CardText>
-        <CardActions style={styles.cardActions}>
-          <RaisedButton label="View photo gallery" linkButton={true} href="/gallery"/>
-        </CardActions>
-      </Card>
-    </div>
-    <div className="flex-item">
-      <Card style={styles.card}>
-        <CardMedia style={styles.cardMedia}>
-          <IconHistory styles={styles.icon}/>
-        </CardMedia>
-        <CardTitle style={styles.cardTitle}>
-          <span>Anti-aging Institute</span>
-        </CardTitle>
-        <CardText style={styles.cardText}>
-          <p style={styles.p}>We organize regular meetings with clients who want to be healthy, youthful and energetic.</p>
-        </CardText>
-        <CardActions style={styles.cardActions}>
-          <RaisedButton label="Visit cognitivemuse.com" linkButton={true} href="http://www.cognitivemuse.com"/>
-        </CardActions>
-      </Card>
-    </div>
-  </div>
-);

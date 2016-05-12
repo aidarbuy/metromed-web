@@ -7,6 +7,8 @@ import IconMenu   from 'material-ui/IconMenu';
 import MoreIcon   from 'material-ui/svg-icons/navigation/more-vert';
 import MenuItem   from 'material-ui/MenuItem';
 
+require('../styles/app-tabs.scss');
+
 const titles = [
   "Metromed Urgent Care",
   "(703)-687-4158",

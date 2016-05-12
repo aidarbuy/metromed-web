@@ -16,8 +16,6 @@ import * as Colors from 'material-ui/styles/colors';
 import testimonials from '../../data/testimonials'
 import ListItemDivider from '../ui/ListItemDivider';
 
-const path = "images/testimonials/";
-
 module.exports = () => (
   <Paper>
     <Toolbar>
@@ -38,7 +36,7 @@ module.exports = () => (
 
             leftAvatar={
               <Avatar
-                src={path + item.img}
+                src={require('../../images/testimonials/' + item.img)}
                 size={70}
               />
             }

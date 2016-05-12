@@ -7,8 +7,11 @@ import CardTitle   from 'material-ui/Card/CardTitle';
 import FlatButton  from 'material-ui/FlatButton';
 import CardText    from 'material-ui/Card/CardText';
 import Divider     from 'material-ui/Divider';
-import Hours       from '../home/HoursOfOperation'
-import * as Colors from 'material-ui/styles/colors'
+import Hours       from './HoursOfOperation';
+import * as Colors from 'material-ui/styles/colors';
+
+require('../../styles/layout.scss');
+require('../../styles/top-bar.scss');
 
 const styles = {
   CardTitle: {

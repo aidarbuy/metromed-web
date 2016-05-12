@@ -11,6 +11,8 @@ import rawTheme    from '../themes/light';
 // import rawTheme    from '../themes/light-base-theme';
 // import rawTheme    from '../themes/dark';
 
+require('../styles/layout.scss');
+
 const muiTheme = getMuiTheme(rawTheme)
 
 export default React.createClass({

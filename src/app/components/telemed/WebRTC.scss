@@ -1,0 +1,36 @@
+.local-video-container {
+	width: 100%;
+	box-sizing: border-box;
+	border: 10px solid green;
+	/*position: absolute;*/
+	right: 0;
+	bottom: 0;
+	/*height: 100%;*/
+	text-align: center;
+}
+.local-video-full {
+	box-sizing: border-box;
+	// border: 1px solid red;
+	position: absolute;
+	width: 100;
+	height: 100%;
+	// margin-left: 50px;
+	// margin-right: auto;
+	// right: auto;
+	bottom: 0;
+	// opacity: 0.5;
+	// background: red;
+}
+.local-video-small {
+	box-sizing: border-box;
+	/*border: 1px solid red;*/
+	position: absolute;
+	height: 25%;
+  transition: height 0.4s ease-out 0.2s;
+	right: 0;
+	bottom: 0;
+}
+
+.remote-video {
+	border: 1px solid green;
+}

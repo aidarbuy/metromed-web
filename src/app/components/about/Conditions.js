@@ -8,8 +8,9 @@ import TableBody from 'material-ui/Table/TableBody';
 import List from 'material-ui/List';
 import ListItem from 'material-ui/List/ListItem';
 import Divider from 'material-ui/Divider';
-
 import ListItemDivider from '../ui/ListItemDivider';
+
+require('../../styles/typography.scss');
 
 const arr = [
   'Asthma', 'Abdominal Pain', 

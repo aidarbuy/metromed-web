@@ -1,5 +1,5 @@
 import React from 'react';
-import ArticleCard from '../components/ArticleCard';
+import ArticleCard from '../components/cards/ArticleCard';
 import articles from '../data/articles';
 
 export default () => (

@@ -10,6 +10,8 @@ import MapIcon      from 'material-ui/svg-icons/maps/place';
 import VirtualIcon  from 'material-ui/svg-icons/action/three-d-rotation';
 import LibraryBooks from 'material-ui/svg-icons/av/library-books';
 
+require('../styles/app-tabs.scss');
+
 export default React.createClass({
   contextTypes: {
     store:  React.PropTypes.object,

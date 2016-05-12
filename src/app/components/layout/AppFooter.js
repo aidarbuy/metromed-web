@@ -8,6 +8,8 @@ import IconInstagram from '../icons/IconInstagram';
 import IconGoogle    from '../icons/IconGooglePlus';
 import dataSocial    from '../../data/social';
 
+require('../../styles/typography.scss');
+
 const social = dataSocial.slice(0, 3);
 
 const Icon = React.createClass({

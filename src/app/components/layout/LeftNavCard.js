@@ -8,6 +8,7 @@ import FlatButton from 'material-ui/FlatButton';
 import CardText from 'material-ui/Card/CardText';
 import Avatar from 'material-ui/Avatar';
 import * as Colors from 'material-ui/styles/colors';
+import threeMedicsThumb from '../../images/gallery/three-medics-thumb.jpg';
 
 export default () => (
   <Card style={{maxWidth:200}}>
@@ -15,7 +16,7 @@ export default () => (
       title="MetroMed"
       subtitle="Urgent Care"
       avatar={
-        <Avatar src="/icons/logo.svg" 
+        <Avatar src={require("../../icons/logo.svg")}
           color={Colors.cyan500}
           backgroundColor={Colors.cyan500}
           style={{boxShadow:'1px 1px #0097A7'}}
@@ -31,7 +32,7 @@ export default () => (
         title="(703)-687-4158" 
         subtitle='info@metromeduc.com' 
       />}>
-      <img src="/images/gallery/three-medics-thumb.jpg" />
+      <img src={threeMedicsThumb} />
     </CardMedia>
   </Card>
 );
