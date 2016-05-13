@@ -1,11 +1,11 @@
-import React      from 'react';
-import { Link }   from 'react-router';
-import AppBar     from 'material-ui/AppBar';
+import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
-import LeftIcon   from 'material-ui/svg-icons/navigation/menu';
-import IconMenu   from 'material-ui/IconMenu';
-import MoreIcon   from 'material-ui/svg-icons/navigation/more-vert';
-import MenuItem   from 'material-ui/MenuItem';
+import IconMenu from 'material-ui/IconMenu';
+import LeftIcon from 'material-ui/svg-icons/navigation/menu';
+import { Link } from 'react-router';
+import MenuItem from 'material-ui/MenuItem';
+import MoreIcon from 'material-ui/svg-icons/navigation/more-vert';
+import React from 'react';
 
 require('../styles/app-tabs.scss');
 
@@ -17,9 +17,6 @@ const titles = [
 ];
 
 export default React.createClass({
-  contextTypes: {
-    store: React.PropTypes.object
-  },
   getInitialState() {
     var storeState = this.props.getStoreState();
     return { 
@@ -33,28 +30,16 @@ export default React.createClass({
     var storeState = this.props.getStoreState();
     var index = storeState.appBar.index;
     if (index > 3) index = 0;
-    this.props.dispatchAction({
-      type:"UPDATE_APPBARTITLE",
-      title:titles[index],
-      index:++index,
-    });
+    this.props.dispatchAction({type:"UPDATE_APPBARTITLE", title:titles[index], index:++index});
     storeState = this.props.getStoreState();
     this.setState({ title: storeState.appBar.title });
   },
   render() {
     return (
-      <AppBar 
-        showMenuIconButton={true}
-        iconElementLeft={
-          <IconButton onTouchTap={this.handleTouchTap}>
-            <LeftIcon />
-          </IconButton>
-        }
-
-        title={this.state.title}
-        titleStyle={{textAlign:'center'}}
+      <AppBar title={this.state.title} titleStyle={{textAlign:'center'}}
         onTitleTouchTap={this.handleTitleTouchTap}
-
+        showMenuIconButton={true}
+        iconElementLeft={<IconButton onTouchTap={this.handleTouchTap}><LeftIcon /></IconButton>}
         iconElementRight={
           <IconMenu 
             iconButtonElement={<IconButton><MoreIcon /></IconButton>}

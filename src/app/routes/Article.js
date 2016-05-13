@@ -1,11 +1,12 @@
-import React from 'react';
-import Helmet from 'react-helmet';
-import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
-import FlatButton from 'material-ui/FlatButton';
+import { grey100 } from 'material-ui/styles/colors';
 import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
-import ArrowUp from 'material-ui/svg-icons/navigation/arrow-upward';
 import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward';
+import ArrowUp from 'material-ui/svg-icons/navigation/arrow-upward';
 import articles from '../data/articles';
+import FlatButton from 'material-ui/FlatButton';
+import Helmet from 'react-helmet';
+import React from 'react';
+import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 
 require('../styles/typography.scss');
 
@@ -14,7 +15,7 @@ export default class Article extends React.Component {
 		super(props);
 		const { id } = this.props.params;
 		const articleObj = this.getArticle(id);
-		console.debug('currArticle:', articleObj.currArticle);
+		// console.debug('currArticle:', articleObj.currArticle);
 		this.state = {
 			prevArticle: articleObj.prevArticle,
 			currArticle: articleObj.currArticle,
@@ -76,7 +77,7 @@ const ArticleToolbar = React.createClass({
 	render() {
 		const { prevArticle, nextArticle, prevButtonDisabled, nextButtonDisabled } = this.props;
 		return (
-			<Toolbar noGutter={true} style={{background:'#f5f5f5'}}>
+			<Toolbar noGutter={true} style={{background:grey100}}>
 				<ToolbarGroup firstChild={true}>
 					<FlatButton className="button-top-left" label="Previous Article" labelPosition="after" primary={true} icon={<ArrowBack />} linkButton={true} href={"/articles/" + prevArticle} disabled={prevButtonDisabled} />
 				</ToolbarGroup>

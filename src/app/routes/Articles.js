@@ -1,9 +1,11 @@
-import React from 'react';
 import ArticleCard from '../components/cards/ArticleCard';
 import articles from '../data/articles';
+import Helmet from 'react-helmet';
+import React from 'react';
 
 export default () => (
   <section>
+    <Helmet title="Articles - MetromedUC" />
     <h3>Articles</h3>
 
     <div className="flex-container">

@@ -19,7 +19,6 @@ export default React.createClass({
   },
   getInitialState() {
     const { store } = this.context;
-    console.debug(store.getState());
     const index = store.getState().appTabs.index;
     return { index };
   },
