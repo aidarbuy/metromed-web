@@ -55,14 +55,14 @@ var pc2;
 // Параметры запрашиваемого медиапотока для getUserMedia:
 var streamConstraints = {
   "audio": false,
-  "video": true,
-  // "video": {
-  //   "mandatory": {
-  //   	"maxWidth": "320",
-  //   	"maxHeight": "240"
-  //   },
-  //   "optional": []
-  // }
+  // "video": true,
+  "video": {
+    "mandatory": {
+    	"minWidth": "1280",
+    	"minHeight": "720"
+    },
+    "optional": []
+  }
 };
 
 
@@ -265,21 +265,21 @@ function pc1_onaddstream(event) {
   remoteVideo.src = URL.createObjectURL(event.stream);
 }
 
+
+
 // При нажатии на кнопку «createOffer» создадим RTCPeerConnection, 
 // зададим методы onicecandidate и onaddstream 
 // и запросим формирование Offer SDP, вызвав метод createOffer():
 function createOffer_click() {
-  console.log("createOffer_click()");
-  this.setState({ callButtonDisabled: true });
-  pc1 = new webkitRTCPeerConnection(servers); // Создаем RTCPeerConnection.
-  pc1.onicecandidate = pc1_onicecandidate;    // Callback-функция для обработки ICE-кандидатов.
-  pc1.onaddstream = pc1_onaddstream;          // Callback-функция, вызываемая при появлении медиапотока от дальней стороны.
-  pc1.addStream(localStream); // Передадим локальный медиапоток (предполагаем, что он уже получен)
-  pc1.createOffer(            // И собственно запрашиваем формирование Offer
-    pc1_createOffer_success,
-    pc1_createOffer_error,
-    offerConstraints
-  );
+  // console.log("createOffer_click()");
+  this.setState({callButtonDisabled:true,stopButtonDisabled:false});
+
+  pc1 = new RTCPeerConnection(servers); // Создаем RTCPeerConnection.
+  pc1.onicecandidate = pc1_onicecandidate; // Обработчик ICE-кандидатов.
+  pc1.onaddstream = pc1_onaddstream; // Обработчик медиапотока от дальней стороны.
+  pc1.addStream(localStream); // Передадим локальный медиапоток (предполагаем, что он уже получен).
+  // И собственно запрашиваем формирование Offer.
+  pc1.createOffer(pc1_createOffer_success, pc1_createOffer_error, offerConstraints);
 }
 
 /**********************************************************************************
@@ -377,9 +377,11 @@ import CardMedia from 'material-ui/Card/CardMedia';
 import RaisedButton from 'material-ui/RaisedButton';
 
 // Константы заглушек для видеоэкранов
-// const POSTER1 = "/images/layerslider/image-1.jpg";
-const POSTER1 = "/images/doctors/roshelle-820x465.jpg";
-const POSTER2 = "/images/layerslider/image-2.jpg";
+// const POSTER1 = require('../../images/layerslider/image-1.jpg');
+const POSTER1 = require('../../images/telemed/LocalVideo.jpg');
+// const POSTER1 = require("../../images/doctors/roshelle-820x465.jpg");
+// const POSTER2 = require("../../images/layerslider/image-2.jpg");
+const POSTER2 = require('../../images/telemed/Connecting.jpg');
 const BROWSER_MESSAGE = "Your browser does not support the video tag.";
 
 import { Link }    from 'react-router';
@@ -415,60 +417,11 @@ class WebRTC extends React.Component {
       startButtonDisabled, callButtonDisabled, stopButtonDisabled,
       localVideoClass,
     } = this.state;
-    const { doc } = this.props;
-    const fullName = doc.firstname + " " + doc.lastname;
-    const route = "/doctors/" + doc.id;
     const { store } = this.context;
     return (
       <section>
-        <div style={{width:'50%'}}>
-          <Card style={{
-            /*margin: 5px;*/
-            boxSizing:'border-box',
-            minHeight:490,
-            // border:'1px dashed red',
-          }}>
-            <CardMedia overlay={
-              <CardTitle title={"Dr. " + fullName}/>}
-              overlayContentStyle={{
-                background:'rgba(0, 188, 212, 0.7)', 
-                bottom:-1,
-                margin:0,
-                padding:0,
-              }}
-            >
-              <img src={'images/doctors/' + doc.img.big}/>
-            </CardMedia>
-
-            <CardTitle className="doctor-card-title" 
-              title={doc.speciality} subtitle={doc.title}/>
-
-            <CardText className="doctor-card-text">{doc.description[0]}</CardText>
-
-            <CardActions style={{textAlign:'right'}}>
-              <Button label="Read more" 
-                labelPosition="before" 
-                tooltip={"Read about doctor " + fullName}
-                icon={<Icon/>} 
-                linkButton={true}
-                secondary={true} 
-                containerElement={<Link to={route} />}
-                onTouchTap={() => {store.dispatch({type:"UPDATE_ROUTE", route})}}
-              />
-            </CardActions>
-          </Card>
-
-
-
-
-
+        <div>
   				<Card>
-            <CardMedia>
-              <video id="remoteVideo" className="remote-video" autoPlay poster={POSTER2}>{BROWSER_MESSAGE}</video>
-              <div className="local-video-contnaine">
-                <video id="localVideo" className={localVideoClass} autoPlay poster={POSTER1}>{BROWSER_MESSAGE}</video>
-              </div>
-            </CardMedia>
   					<CardActions style={{textAlign:'center'}}>
   						<RaisedButton label="Вкл." id="btn_getUserMedia" primary={true}
   							onTouchTap={getUserMedia_click.bind(this)}
@@ -483,6 +436,12 @@ class WebRTC extends React.Component {
   							disabled={stopButtonDisabled}
   						/>
   					</CardActions>
+            <CardMedia>
+              <video id="remoteVideo" className="remote-video" autoPlay poster={POSTER2}>{BROWSER_MESSAGE}</video>
+              <div className="local-video-contnainer">
+                <video id="localVideo" autoPlay className={localVideoClass} poster={POSTER1}>{BROWSER_MESSAGE}</video>
+              </div>
+            </CardMedia>
   				</Card>
         </div>
 			</section>

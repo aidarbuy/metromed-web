@@ -1,19 +1,17 @@
-import React from 'react';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import * as Colors from 'material-ui/styles/colors';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import AppBar      from './AppBar';
-import AppLeftNav  from './AppLeftNav';
-import AppTabs     from './AppTabs';
+import AppBar from './AppBar';
+import AppLeftNav from './AppLeftNav';
+import AppTabs from './AppTabs';
 import AppTabsIcon from './AppTabsIcon';
-import AppFooter   from '../components/layout/AppFooter';
-import rawTheme    from '../themes/light';
-// import rawTheme    from '../themes/light-base-theme';
-// import rawTheme    from '../themes/dark';
+import AppFooter from '../components/layout/AppFooter';
+import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import React from 'react';
 
 require('../styles/layout.scss');
 
-const muiTheme = getMuiTheme(rawTheme)
+const muiTheme = getMuiTheme(baseTheme);
 
 export default React.createClass({
   contextTypes: {
@@ -25,15 +23,15 @@ export default React.createClass({
     muiTheme: React.PropTypes.object,
   },
   componentWillMount() {
-    // let newMuiTheme = muiTheme;
-    // const leftNav = { ...newMuiTheme.leftNav,
-      // color: Colors.cyan700,
-    // };
-    // newMuiTheme.leftNav = leftNav;
+    let newMuiTheme = muiTheme;
+    const leftNav = { ...newMuiTheme.leftNav,
+      color: Colors.red700,
+    };
+    newMuiTheme.leftNav = leftNav;
     // overwrite this.state.muiTheme
-    // this.setState({
-      // muiTheme: newMuiTheme,
-    // });
+    this.setState({
+      muiTheme: newMuiTheme,
+    });
   },
   getInitialState() {
     const route = "/" + this.props.location.pathname;
