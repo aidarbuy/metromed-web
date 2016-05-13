@@ -1,16 +1,13 @@
-import React         from 'react';
-import IconButton    from 'material-ui/IconButton';
-import Toolbar       from 'material-ui/Toolbar';
-import ToolbarGroup  from 'material-ui/Toolbar/ToolbarGroup';
-import ToolbarTitle  from 'material-ui/Toolbar/ToolbarTitle';
-import IconFacebook  from '../icons/IconFacebook';
+import * as Colors from 'material-ui/styles/colors';
+import IconButton from 'material-ui/IconButton';
+import IconFacebook from '../icons/IconFacebook';
+import IconGoogle from '../icons/IconGooglePlus';
 import IconInstagram from '../icons/IconInstagram';
-import IconGoogle    from '../icons/IconGooglePlus';
-import dataSocial    from '../../data/social';
-
-require('../../styles/typography.scss');
-
-const social = dataSocial.slice(0, 3);
+import dataSocial from '../../data/social';
+import Toolbar from 'material-ui/Toolbar';
+import ToolbarGroup from 'material-ui/Toolbar/ToolbarGroup';
+import ToolbarTitle from 'material-ui/Toolbar/ToolbarTitle';
+import React from 'react';
 
 const Icon = React.createClass({
   render() {
@@ -29,24 +26,24 @@ const Icon = React.createClass({
 
 export default React.createClass({
   render() {
+    const social = dataSocial.slice(0, 3);
+    const socialMapped = social.map((icon, index) => (
+      <a key={icon.name} href={icon.href}>
+        <IconButton touch tooltip={icon.desc} tooltipPosition="top-right" style={{marginTop:4}}>
+          <Icon iconName={icon.icon} styles={{boxShadow:'1px 1px 3px' + Colors.cyan900}}/>
+        </IconButton>
+      </a>
+    ));
     return (
-      <Toolbar>
-        <ToolbarGroup float="left" firstChild={true}>
-          {social.map((icon, index) => (
-            <a key={icon.name} href={icon.href}>
-              <IconButton tooltip={icon.desc} 
-                touch={true} 
-                tooltipPosition="top-right"
-                style={{height:56}}>
-                <Icon iconName={icon.icon} styles={{hover:'green'}}/>
-              </IconButton>
-            </a>
-          ))}
+      <Toolbar style={{background:Colors.cyan700}}>
+        <ToolbarGroup float="left" firstChild={false}>
+          {socialMapped}
         </ToolbarGroup>
-        <ToolbarGroup float="right" lastChild={true}>
-          <ToolbarTitle 
-            text="&copy; 2016 Amygdala LLC" 
-            className="app-footer-title" />
+        <ToolbarGroup float="right" lastChild={false}>
+          <ToolbarTitle text="&copy; 2016 Amygdala LLC" style={{
+            color:Colors.cyan50,
+            fontSize:16,
+          }}/>
         </ToolbarGroup>
       </Toolbar>
     );

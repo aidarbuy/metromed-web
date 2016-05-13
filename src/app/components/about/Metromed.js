@@ -56,7 +56,7 @@ module.exports = () => (
             }}>
               <li>Joint aspiration</li>
               <li>Ingrown toenail removal</li>
-              <li>Foreign body removal from the eye</li><li>Reduction of fractures and dislocations</li>;
+              <li>Foreign body removal from the eye</li><li>Reduction of fractures and dislocations</li>
             </ul>
           </div>
         </ListItem>
