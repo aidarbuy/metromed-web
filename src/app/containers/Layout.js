@@ -23,18 +23,18 @@ export default React.createClass({
     muiTheme: React.PropTypes.object,
   },
   componentWillMount() {
-    let newMuiTheme = muiTheme;
-    const leftNav = { ...newMuiTheme.leftNav,
-      color: Colors.red700,
-    };
-    newMuiTheme.leftNav = leftNav;
+    // let newMuiTheme = muiTheme;
+    // const leftNav = { ...newMuiTheme.leftNav,
+      // color: Colors.red700,
+    // };
+    // newMuiTheme.leftNav = leftNav;
     // overwrite this.state.muiTheme
-    this.setState({
-      muiTheme: newMuiTheme,
-    });
+    // this.setState({
+      // muiTheme: newMuiTheme,
+    // });
   },
   getInitialState() {
-    const route = "/" + this.props.location.pathname;
+    const route = this.props.location.pathname;
     const index = this.getInitIndex(route);
     this.context.store.dispatch({type:"UPDATE_ROUTE", route});
     this.context.store.dispatch({type:"UPDATE_INDEX", index});
@@ -77,7 +77,7 @@ export default React.createClass({
       case "/gallery"   : return -1;
       case "/test"      : return -1;
       case "/visa"      : return -1;
-      default           : return -1;
+      default           : return 1;
     }
   },
   pushToRouter(route) {

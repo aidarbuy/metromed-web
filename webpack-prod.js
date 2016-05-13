@@ -25,7 +25,7 @@ const config = {
     new plugins.clean(['build'], {
       root: '/', // location of webpack.config.
       verbose: true, // Write logs to console.
-      dry: false // Do not delete anything, good for testing.
+      dry: true // Do not delete anything, good for testing.
     }),
     new webpack.DefinePlugin({
       'process.env': {

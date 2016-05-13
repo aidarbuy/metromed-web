@@ -1,14 +1,14 @@
-import React        from 'react';
-import Tabs         from 'material-ui/Tabs';
-import Tab          from 'material-ui/Tabs/Tab';
-import FontIcon     from 'material-ui/FontIcon';
-import HomeIcon     from 'material-ui/svg-icons/action/home';
-import AboutIcon    from 'material-ui/svg-icons/action/info';
-import ServicesIcon from 'material-ui/svg-icons/maps/local-hospital';
-import DoctorsIcon  from 'material-ui/svg-icons/social/people';
-import MapIcon      from 'material-ui/svg-icons/maps/place';
-import VirtualIcon  from 'material-ui/svg-icons/action/three-d-rotation';
+import AboutIcon from 'material-ui/svg-icons/action/info';
+import DoctorsIcon from 'material-ui/svg-icons/social/people';
+import FontIcon from 'material-ui/FontIcon';
+import HomeIcon from 'material-ui/svg-icons/action/home';
 import LibraryBooks from 'material-ui/svg-icons/av/library-books';
+import MapIcon from 'material-ui/svg-icons/maps/place';
+import React from 'react';
+import ServicesIcon from 'material-ui/svg-icons/maps/local-hospital';
+import Tab from 'material-ui/Tabs/Tab';
+import Tabs from 'material-ui/Tabs';
+import VirtualIcon from 'material-ui/svg-icons/action/three-d-rotation';
 
 require('../styles/app-tabs.scss');
 
@@ -19,6 +19,7 @@ export default React.createClass({
   },
   getInitialState() {
     const { store } = this.context;
+    console.debug(store.getState());
     const index = store.getState().appTabs.index;
     return { index };
   },
@@ -46,34 +47,13 @@ export default React.createClass({
         value={this.state.index}
         onChange={this.handleChange}
       >
-        <Tab value={0}
-          icon={<HomeIcon 
-            className="app-tabs-icon-icon" />}
-        />
-        <Tab value={1}
-          icon={<AboutIcon 
-            className="app-tabs-icon-icon" />}
-        />
-        <Tab value={2}
-          icon={<ServicesIcon 
-            className="app-tabs-icon-icon" />}
-        />
-        <Tab value={3}
-          icon={<DoctorsIcon 
-            className="app-tabs-icon-icon" />}
-        />
-        <Tab value={4}
-          icon={<LibraryBooks
-            className="app-tabs-icon-icon" />}
-        />
-        <Tab value={5}
-          icon={<MapIcon 
-            className="app-tabs-icon-icon" />}
-        />
-        <Tab value={6}
-          icon={<VirtualIcon 
-            className="app-tabs-icon-icon" />}
-        />
+        <Tab value={0} icon={<HomeIcon/>}/>
+        <Tab value={1} icon={<AboutIcon/>}/>
+        <Tab value={2} icon={<ServicesIcon/>}/>
+        <Tab value={3} icon={<DoctorsIcon/>}/>
+        <Tab value={4} icon={<LibraryBooks/>}/>
+        <Tab value={5} icon={<MapIcon/>}/>
+        <Tab value={6} icon={<VirtualIcon/>}/>
       </Tabs>
     )
   }
