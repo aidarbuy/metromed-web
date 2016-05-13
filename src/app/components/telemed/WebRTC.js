@@ -11,35 +11,6 @@ socket.on('server event', function (data) {
   socket.emit('client event', { 'test': 'works' });
 });
 
-/*************************************************************
-	Обмен информацией между RTCPeerConnection через веб-сокеты
-*************************************************************/
-// Обработчики получения сообщения от сервера веб-сокетов:
-socket.on('offer', function (data) {
-  console.log("socket.on('offer'):", data);
-  pc2_receivedOffer(data);
-});
-
-socket.on('answer', function (data) {
-  console.log("socket.on('answer'):", data);
-  pc1.setRemoteDescription( new RTCSessionDescription(data) );
-});
-
-socket.on('ice1', function (data) {
-  console.log("socket.on('ice1'):", data);
-  pc2.addIceCandidate(new RTCIceCandidate(data));
-});
-
-socket.on('ice2', function (data) {
-  console.log("socket.on('ice2'):", data);
-  pc1.addIceCandidate(new RTCIceCandidate(data));
-});
-
-socket.on('hangup', function (data) {
-  console.log("socket.on('hangup'):", data);
-  remoteVideo.src = ""; pc2.close(); pc2 = null;
-});
-
 
 // ВКЛЮЧЕНИЕ ЛОКАЛЬНОГО ПОТОКА
 
@@ -190,10 +161,9 @@ var servers = { "iceServers": [
 /*
 	Модель offer-answer
 
-	Для установления и изменения медиапотоков используется 
-	модель offer/answer (предложение/ответ; описана в tools.ietf.org/html/rfc3264)
-	и протокол SDP (Session Description Protocol).
-	Они же используются и протоколом SIP.
+	Для установления и изменения медиапотоков используется модель offer/answer 
+  (предложение/ответ; описана в tools.ietf.org/html/rfc3264) 
+  и протокол SDP (Session Description Protocol). Они же используются и протоколом SIP.
 
 	В этой модели выделяется два агента: 
 	Offerer — тот, кто генерирует SDP для создания или модификации сессии (Offer SDP),
@@ -230,13 +200,10 @@ var servers = { "iceServers": [
 	onaddstream при подключении медиапотока от дальней стороны.
 */
 
-// Параметры для подготовки Offer SDP:
-var offerConstraints = {};
-
 // Первый параметр метода createOffer() — callback-функция, вызываемая при успешном формировании Offer:
 function pc1_createOffer_success(desc) {
-  console.log("pc1_createOffer_success(): \ndesc.sdp:\n"+desc.sdp+"desc:", desc);
-  pc1.setLocalDescription(desc); // Зададим RTCPeerConnection сформированный Offer SDP.
+  // console.log("pc1_createOffer_success(): \ndesc.sdp:\n"+desc.sdp+"desc:", desc);
+  pc1.setLocalDescription(desc); // Передаем первому соединению Offer с SDP, как описание локальной стороны.
   // Когда дальняя сторона пришлет свой Answer SDP, его нужно будет задать методом setRemoteDescription
   // Пока вторая сторона не реализована, ничего не делаем
   // pc2_receivedOffer(desc);
@@ -265,27 +232,22 @@ function pc1_onaddstream(event) {
   remoteVideo.src = URL.createObjectURL(event.stream);
 }
 
+// Третий аргумент - параметры для подготовки Offer SDP:
+var offerConstraints = {};
 
-
-// При нажатии на кнопку «createOffer» создадим RTCPeerConnection, 
-// зададим методы onicecandidate и onaddstream 
+// Создадим RTCPeerConnection, зададим методы onicecandidate и onaddstream 
 // и запросим формирование Offer SDP, вызвав метод createOffer():
 function createOffer_click() {
   // console.log("createOffer_click()");
-  this.setState({callButtonDisabled:true,stopButtonDisabled:false});
-
+  this.setState({callButtonDisabled:true, stopButtonDisabled:false});
   pc1 = new RTCPeerConnection(servers); // Создаем RTCPeerConnection.
-  pc1.onicecandidate = pc1_onicecandidate; // Обработчик ICE-кандидатов.
+  pc1.onicecandidate = pc1_onicecandidate; // ICE-кандидаты: возможные варианты подключения к данному участнику.
   pc1.onaddstream = pc1_onaddstream; // Обработчик медиапотока от дальней стороны.
-  pc1.addStream(localStream); // Передадим локальный медиапоток (предполагаем, что он уже получен).
-  // И собственно запрашиваем формирование Offer.
+  pc1.addStream(localStream); // Добавляем локальный поток к первому соединению.
+  // * SDP - описание параметров медиасессии, доступные кодеки, медиапотоки *
+  // Запрашиваем у первого соединения формирование Offer, который содержит SDP:
   pc1.createOffer(pc1_createOffer_success, pc1_createOffer_error, offerConstraints);
 }
-
-/**********************************************************************************
-	Напомним, SDP — описание параметров медиасессии, доступные кодеки, медиапотоки,
-	а ICE-кандидаты — возможные варианты подключения к данному участнику.
- **********************************************************************************/
 
 
 
@@ -448,6 +410,37 @@ class WebRTC extends React.Component {
 		);
 	}
 }
+
+
+/*************************************************************
+  Обмен информацией между RTCPeerConnection через веб-сокеты
+*************************************************************/
+// Обработчики получения сообщения от сервера веб-сокетов:
+socket.on('offer', function (data) {
+  console.log("socket.on('offer'):", data);
+  pc2_receivedOffer(data);
+});
+
+socket.on('answer', function (data) {
+  console.log("socket.on('answer'):", data);
+  pc1.setRemoteDescription( new RTCSessionDescription(data) );
+});
+
+socket.on('ice1', function (data) {
+  console.log("socket.on('ice1'):", data);
+  pc2.addIceCandidate(new RTCIceCandidate(data));
+});
+
+socket.on('ice2', function (data) {
+  console.log("socket.on('ice2'):", data);
+  pc1.addIceCandidate(new RTCIceCandidate(data));
+});
+
+socket.on('hangup', function (data) {
+  console.log("socket.on('hangup'):", data);
+  remoteVideo.src = ""; pc2.close(); pc2 = null;
+});
+
 
 // Экспонируем компонент:
 export default WebRTC;
