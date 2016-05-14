@@ -1,31 +1,4 @@
 import io from 'socket.io-client';
-var socket = io.connect('https://metromed-io.herokuapp.com');
-// var socket = io.connect('https://localhost:4200');
-socket.on('test', function (data) {
-  console.debug(data.message);
-  socket.emit('test', { 'message': "Test message from client" });
-});
-socket.on('offer', function (data) {
-  console.log("Received offer");
-  console.debug(data);
-});
-socket.on('answer', function (data) {
-  console.log("socket.on('answer'):", data);
-  pc1.setRemoteDescription(new RTCSessionDescription(data));
-});
-socket.on('ice1', function (data) {
-  console.log("socket.on('ice1'):", data);
-  pc2.addIceCandidate(new RTCIceCandidate(data));
-});
-socket.on('ice2', function (data) {
-  console.log("socket.on('ice2'):", data);
-  pc1.addIceCandidate(new RTCIceCandidate(data));
-});
-socket.on('hangup', function (data) {
-  console.log("socket.on('hangup'):", data);
-  remoteVideo.src = ""; pc2.close(); pc2 = null;
-});
-
 import Button from 'material-ui/RaisedButton';
 import Card from 'material-ui/Card';
 import CardActions from 'material-ui/Card/CardActions';
@@ -41,6 +14,53 @@ const POSTER1 = require('../../images/telemed/LocalVideo.jpg');
 const POSTER2 = require('../../images/telemed/Connecting.jpg');
 const BROWSER_MESSAGE = "Your browser does not support the video tag.";
 var localStream;
+var socket = io.connect('https://metromed-io.herokuapp.com');
+var configuration = { iceServers: [{ urls: [
+  'stun:stun.l.google.com:19305',
+  'stun:stun1.l.google.com:19305',
+  'stun:stun2.l.google.com:19305',
+  'stun:stun3.l.google.com:19305',
+  'stun:stun4.l.google.com:19305',
+  'stun:stun.services.mozilla.com',
+]}]};
+var peerConnection = new RTCPeerConnection(configuration);
+peerConnection.onicecandidate = (event) => {
+  if (event.candidate) {
+    console.debug("Sending the candidate to the remote peer");
+    socket.emit("ice");
+  } else {
+    console.debug("All ICE candidates have been sent");
+  }
+};
+
+socket.on('test', (data) => {
+  console.info(data.message);
+  socket.emit('test', { 'message': "Test message from client" });
+});
+socket.on('offer', (data) => {
+  peerConnection.setRemoteDescription(data.sdp);
+  peerConnection.createAnswer().then((answer) => {
+    peerConnection.setLocalDescription(answer);
+    socket.emit('answer', answer);
+  })
+  .catch((error) => { console.log("createAnswer:", error) });
+});
+socket.on('answer', (data) => {
+  console.log("Received answer from remote peer:", data);
+  peerConnection.setRemoteDescription(new RTCSessionDescription(data));
+});
+socket.on('ice1', (data) => {
+  console.log("socket.on('ice1'):", data);
+  pc2.addIceCandidate(new RTCIceCandidate(data));
+});
+socket.on('ice2', (data) => {
+  console.log("socket.on('ice2'):", data);
+  pc1.addIceCandidate(new RTCIceCandidate(data));
+});
+socket.on('hangup', (data) => {
+  console.log("socket.on('hangup'):", data);
+  remoteVideo.src = ""; pc2.close(); pc2 = null;
+});
 
 export default class WebRTC extends React.Component {
   contextTypes: {
@@ -55,27 +75,7 @@ export default class WebRTC extends React.Component {
       message: "Welcome to MetromedUrgentCare Telemed!",
     };
   }
-  componentDidMount() {
-    // getUserMedia_click();
-  }
   start() {
-    var configuration = { iceServers: [{ urls: [
-      'stun:stun.l.google.com:19305',
-      'stun:stun1.l.google.com:19305',
-      'stun:stun2.l.google.com:19305',
-      'stun:stun3.l.google.com:19305',
-      'stun:stun4.l.google.com:19305',
-      'stun:stun.services.mozilla.com',
-    ]}]};
-    var peerConnection = new RTCPeerConnection(configuration);
-    peerConnection.onicecandidate = (event) => {
-      if (event.candidate) {
-        console.debug("Sending the candidate to the remote peer");
-        socket.emit("ice1");
-      } else {
-        console.debug("All ICE candidates have been sent");
-      }
-    };
     peerConnection.onaddstream = (event) => {
       this.refs.receivedVideo.srcObject = event.stream;
       this.setState({
@@ -83,18 +83,12 @@ export default class WebRTC extends React.Component {
         message: "Received remote stream",
       });
     };
-    // Creates a request to find a remote peer with a specific configuration.
     peerConnection.createOffer().then((offer) => {
       return peerConnection.setLocalDescription(offer);
     })
     .then(() => {
       console.debug("Sending Offer SDP to a remote peer");
-      socket.emit("offer", {
-        name: "myUsername",
-        target: "targetUsername",
-        type: "video-offer",
-        sdp: peerConnection.localDescription
-      });
+      socket.emit("offer", peerConnection.localDescription);
     })
     .catch((reason) => {
       // An error occurred, so handle the failure to connect
@@ -110,6 +104,10 @@ export default class WebRTC extends React.Component {
       this.refs.localVideo.srcObject = stream;
       localStream = stream;
     }).catch((error) => {console.error("getUserMedia:", error)});
+  }
+  receivedOfferSDP(data) {
+    console.debug("Received OfferSDP, setting remote description...");
+    peerConnection.setRemoteDescription(data.sdp.sdp);
   }
   stop() {
     this.setState({
