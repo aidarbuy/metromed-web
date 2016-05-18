@@ -1,152 +1,299 @@
+/*
+ *  Copyright (c) 2015 The WebRTC project authors. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license
+ *  that can be found in the LICENSE file in the root of the source
+ *  tree.
+ */
+
 import io from 'socket.io-client';
-import Button from 'material-ui/RaisedButton';
+var socket = io('https://metromed-io2.herokuapp.com/');
+var localVideo, remoteVideo, startTime, localStream, pc, pc1, pc2;
+var servers = { iceServers: [{ urls: [
+	'stun:stun.l.google.com:19305',
+	'stun:stun1.l.google.com:19305',
+	'stun:stun2.l.google.com:19305',
+	'stun:stun3.l.google.com:19305',
+	'stun:stun4.l.google.com:19305',
+	'stun:stun.services.mozilla.com',
+]}]};
+
+function getName(pc) {
+	return (pc === pc1) ? 'pc1' : 'pc2';
+}
+
+function getOtherPc(pc) {
+	return (pc === pc1) ? pc2 : pc1;
+}
+
+function gotStream(stream) {
+	trace('Received local stream');
+	localVideo.srcObject = stream;
+	localStream = stream;
+	this.setState({callButtonDisabled: false});
+}
+
+function start() {
+	trace('Requesting local stream');
+	this.setState({startButtonDisabled: true});
+	navigator.mediaDevices.getUserMedia({
+		audio: false,
+		video: { width: 1280 }
+	})
+	.then(gotStream.bind(this))
+	.catch(function(e) {
+		alert('getUserMedia() error: ' + e.name);
+	});
+}
+
+function call() {
+	this.setState({
+		callButtonDisabled: true,
+		hangupButtonDisabled: false,
+	});
+	trace('Starting call');
+	startTime = window.performance.now();
+	var videoTracks = localStream.getVideoTracks();
+	var audioTracks = localStream.getAudioTracks();
+	if (videoTracks.length > 0) {
+		trace('Using video device: ' + videoTracks[0].label);
+	}
+	if (audioTracks.length > 0) {
+		trace('Using audio device: ' + audioTracks[0].label);
+	}
+	pc1 = new RTCPeerConnection(servers);
+	trace('Created local peer connection object pc1');
+	pc1.onicecandidate = function(e) {
+		onIceCandidate(pc1, e);
+	};
+	pc1.oniceconnectionstatechange = function(e) {
+		onIceStateChange(pc1, e);
+	};
+
+	pc1.addStream(localStream);
+	trace('Added local stream to pc1');
+
+	trace('pc1 createOffer start');
+	pc1.createOffer({
+		offerToReceiveAudio: 1,
+		offerToReceiveVideo: 1
+	}).then(
+		onCreateOfferSuccess,
+		onCreateSessionDescriptionError
+	);
+}
+
+socket.on('offer', (desc) => {
+	pc2 = new RTCPeerConnection(servers);
+	trace('Created remote peer connection object pc2');
+	pc2.addStream(localStream);
+	console.debug('Added local stream to pc2');
+	trace('pc2 setRemoteDescription start');
+	pc2.setRemoteDescription(desc).then(
+		function() {
+			onSetRemoteSuccess(pc2);
+		},
+		onSetSessionDescriptionError
+	);
+	pc2.onicecandidate = function(e) {
+		onIceCandidate(pc2, e);
+	};
+	pc2.oniceconnectionstatechange = function(e) {
+		onIceStateChange(pc2, e);
+	};
+	trace('pc2 createAnswer start');
+	// Since the 'remote' side has no media stream we need
+	// to pass in the right constraints in order for it to
+	// accept the incoming offer of audio and video.
+	pc2.createAnswer().then(
+		onCreateAnswerSuccess,
+		onCreateSessionDescriptionError
+	);
+	pc2.onaddstream = gotRemoteStream;
+});
+
+function onCreateSessionDescriptionError(error) {
+	trace('Failed to create session description: ' + error.toString());
+}
+
+function onCreateOfferSuccess(desc) {
+	trace('Offer from pc1\n' + desc.sdp);
+	trace('pc1 setLocalDescription start');
+	pc1.setLocalDescription(desc).then(
+		function() {
+			onSetLocalSuccess(pc1);
+			socket.emit('offer', desc);
+		},
+		onSetSessionDescriptionError
+	);
+}
+
+function onSetLocalSuccess(pc) {
+	trace(getName(pc) + ' setLocalDescription complete');
+}
+
+function onSetRemoteSuccess(pc) {
+	trace(getName(pc) + ' setRemoteDescription complete');
+}
+
+function onSetSessionDescriptionError(error) {
+	trace('Failed to set session description: ' + error.toString());
+}
+
+function gotRemoteStream(e) {
+	remoteVideo.srcObject = e.stream;
+	trace('pc2 received remote stream');
+}
+
+function onCreateAnswerSuccess(desc) {
+	trace('Answer from pc2:\n' + desc.sdp);
+	trace('pc2 setLocalDescription start');
+	pc2.setLocalDescription(desc).then(
+		function() {
+			onSetLocalSuccess(pc2);
+			socket.emit('answer', desc);
+		},
+		onSetSessionDescriptionError
+	);
+}
+
+socket.on('answer', (desc) => {
+	trace('pc1 setRemoteDescription start');
+	pc1.setRemoteDescription(desc).then(
+		function() {
+			onSetRemoteSuccess(pc1);
+			console.debug('pc1.setRemoteDescription');
+		},
+		onSetSessionDescriptionError
+	);
+	pc1.onaddstream = gotRemoteStream;
+});
+
+function onIceCandidate(pc, event) {
+	if (event.candidate) {
+		socket.emit('ice', {
+			pc: getName(pc),
+			candidate: event.candidate
+		});
+		trace(getName(pc) + ' ICE candidate: \n' + event.candidate.candidate);
+	}
+}
+
+socket.on('ice', (data) => {
+	pc = pc1 ? pc1 : pc2;
+	pc.addIceCandidate(
+		new RTCIceCandidate(data.candidate)
+	).then(
+		function() {
+			onAddIceCandidateSuccess(data.pc);
+		},
+		function(err) {
+			onAddIceCandidateError(data.pc, err);
+		}
+	);
+});
+
+function onAddIceCandidateSuccess(pc) {
+	trace(getName(pc) + ' addIceCandidate success');
+}
+
+function onAddIceCandidateError(pc, error) {
+	trace(getName(pc) + ' failed to add ICE Candidate: ' + error.toString());
+}
+
+function onIceStateChange(pc, event) {
+	if (pc) {
+		trace(getName(pc) + ' ICE state: ' + pc.iceConnectionState);
+		console.log('ICE state change event: ', event);
+	}
+}
+
+function hangup() {
+	trace('Ending call');
+	pc1.close();
+	pc2.close();
+	pc1 = null;
+	pc2 = null;
+	hangupButton.disabled = true;
+	callButton.disabled = false;
+}
+
+import React from 'react';
+import RaisedButton from 'material-ui/RaisedButton';
 import Card from 'material-ui/Card';
 import CardActions from 'material-ui/Card/CardActions';
+const buttons = [{
+	ref: 'startButton',
+	label: "Start",
+	primary: true,
+	stateName: 'startButtonDisabled',
+	functionName: start,
+},{
+	ref: 'callButton',
+	label: "Call",
+	primary: true,
+	stateName: 'callButtonDisabled',
+	functionName: call,
+},{
+	ref: 'hangupButton',
+	label: "Hang Up",
+	secondary: true,
+	stateName: 'hangupButtonDisabled',
+	functionName: hangup,
+},{
+	ref: 'stopButton',
+	label: "Stop",
+	secondary: true,
+	stateName: 'stopButtonDisabled',
+	functionName: stop,
+}];
 import CardMedia from 'material-ui/Card/CardMedia';
-import CardText from 'material-ui/Card/CardText';
-import CardTitle from 'material-ui/Card/CardTitle';
-import Icon from 'material-ui/svg-icons/navigation/arrow-forward';
-import { Link } from 'react-router';
-import RaisedButton from 'material-ui/RaisedButton';
-import React from 'react';
-require('./WebRTC.scss');
-const POSTER1 = require('../../images/telemed/LocalVideo.jpg');
-const POSTER2 = require('../../images/telemed/Connecting.jpg');
-const BROWSER_MESSAGE = "Your browser does not support the video tag.";
-var localStream;
-var socket = io.connect('https://metromed-io.herokuapp.com');
-var configuration = { iceServers: [{ urls: [
-  'stun:stun.l.google.com:19305',
-  'stun:stun1.l.google.com:19305',
-  'stun:stun2.l.google.com:19305',
-  'stun:stun3.l.google.com:19305',
-  'stun:stun4.l.google.com:19305',
-  'stun:stun.services.mozilla.com',
-]}]};
-var peerConnection = new RTCPeerConnection(configuration);
-peerConnection.onicecandidate = (event) => {
-  if (event.candidate) {
-    console.debug("Sending the candidate to the remote peer");
-    socket.emit("ice");
-  } else {
-    console.debug("All ICE candidates have been sent");
-  }
-};
-
-socket.on('test', (data) => {
-  console.info(data.message);
-  socket.emit('test', { 'message': "Test message from client" });
-});
-socket.on('offer', (data) => {
-  peerConnection.setRemoteDescription(data.sdp);
-  peerConnection.createAnswer().then((answer) => {
-    peerConnection.setLocalDescription(answer);
-    socket.emit('answer', answer);
-  })
-  .catch((error) => { console.log("createAnswer:", error) });
-});
-socket.on('answer', (data) => {
-  console.log("Received answer from remote peer:", data);
-  peerConnection.setRemoteDescription(new RTCSessionDescription(data));
-});
-socket.on('ice1', (data) => {
-  console.log("socket.on('ice1'):", data);
-  pc2.addIceCandidate(new RTCIceCandidate(data));
-});
-socket.on('ice2', (data) => {
-  console.log("socket.on('ice2'):", data);
-  pc1.addIceCandidate(new RTCIceCandidate(data));
-});
-socket.on('hangup', (data) => {
-  console.log("socket.on('hangup'):", data);
-  remoteVideo.src = ""; pc2.close(); pc2 = null;
-});
-
+const LOCAL_POSTER = require('../../images/telemed/local-video.jpg');
+const REMOTE_POSTER = require('../../images/telemed/connecting.jpg');
+const BROWSER_MESSAGE = "Your browser does not support video tags";
 export default class WebRTC extends React.Component {
-  contextTypes: {
-    store: React.PropTypes.object,
-  }
-  constructor(props, context) {
-    super(props, context);
-    this.state = {
-      localVideoClass: 'local-video-full',
-      startDisabled: false,
-      stopDisabled: true,
-      message: "Welcome to MetromedUrgentCare Telemed!",
-    };
-  }
-  start() {
-    peerConnection.onaddstream = (event) => {
-      this.refs.receivedVideo.srcObject = event.stream;
-      this.setState({
-        stopDisabled: false,
-        message: "Received remote stream",
-      });
-    };
-    peerConnection.createOffer().then((offer) => {
-      return peerConnection.setLocalDescription(offer);
-    })
-    .then(() => {
-      console.debug("Sending Offer SDP to a remote peer");
-      socket.emit("offer", peerConnection.localDescription);
-    })
-    .catch((reason) => {
-      // An error occurred, so handle the failure to connect
-      console.error("createOffer:", reason);
-    });
-    navigator.mediaDevices.getUserMedia({video:true, audio:false})
-    .then((stream) => {
-      this.setState({
-        message: "Using" + stream.getTracks()[0].label, // camera name
-        startDisabled: true,
-        stopDisabled: false,
-      });
-      this.refs.localVideo.srcObject = stream;
-      localStream = stream;
-    }).catch((error) => {console.error("getUserMedia:", error)});
-  }
-  receivedOfferSDP(data) {
-    console.debug("Received OfferSDP, setting remote description...");
-    peerConnection.setRemoteDescription(data.sdp.sdp);
-  }
-  stop() {
-    this.setState({
-      startDisabled: false,
-      stopDisabled: true,
-      message: "Thank you for using our telemedicine service!"
-    });
-    this.refs.localVideo.srcObject = '';
-    var MediaStreamTrack = localStream.getTracks()[0] // if only one media track
-    MediaStreamTrack.stop();
-  }
-  changeLocalVideoClass() {
-    this.setState({
-      localVideoClass: 'local-video-small',
-    });
-  }
-  render() {
-    const { startDisabled, stopDisabled, localVideoClass } = this.state;
-    const { store } = this.context;
-    return (
-      <section>
-        <div>
-  				<Card>
-            <CardActions style={{textAlign:'center'}}>
-              <RaisedButton label="Start" primary={true} onTouchTap={this.start.bind(this)} disabled={startDisabled} />
-              <RaisedButton label="Stop" secondary={true} onTouchTap={this.stop.bind(this)} disabled={stopDisabled} />
-            </CardActions>
-            <CardMedia>
-              <video id="remoteVideo" className="remote-video" autoPlay poster={POSTER2}>{BROWSER_MESSAGE}</video>
-              <div className="local-video-contnainer">
-                <video ref="localVideo" autoPlay className={localVideoClass} poster={POSTER1}>{BROWSER_MESSAGE}</video>
-              </div>
-            </CardMedia>
-  					<CardActions style={{textAlign:'center'}}>
-              <span>{this.state.message}</span>
-  					</CardActions>
-  				</Card>
-        </div>
-			</section>
+	constructor(props, context) {
+		super(props, context);
+		this.state = {
+			callButtonDisabled: true,
+			hangupButtonDisabled: true,
+			stopButtonDisabled: true,
+		};
+	}
+	componentDidMount() {
+		localVideo = this.refs.localVideo;
+		remoteVideo = this.refs.remoteVideo;
+	}
+	render() {
+		const buttonsSliced = buttons.slice(0, 2);
+		const buttonsMapped = buttonsSliced.map((button, i) => (
+			<RaisedButton key={i} ref={button.ref} label={button.label}
+				primary={button.primary} secondary={button.secondary}
+				disabled={this.state[button.stateName]}
+				onTouchTap={button.functionName.bind(this)}
+			/>
+		));
+		return (
+			<Card>
+				<CardActions style={{textAlign:'center'}}>
+					{buttonsMapped}
+				</CardActions>
+				<CardMedia>
+					<div>
+						<video autoPlay ref="localVideo" poster={LOCAL_POSTER} style={styles.video}>{BROWSER_MESSAGE}</video>
+						<video autoPlay ref="remoteVideo" poster={REMOTE_POSTER} style={styles.video}>{BROWSER_MESSAGE}</video>
+					</div>
+				</CardMedia>
+			</Card>
 		);
 	}
+};
+
+import { cyan700 } from 'material-ui/styles/colors';
+const styles = {
+	video : {
+		width: '50%',
+		border: '1px solid ' + cyan700,
+		boxSizing: 'border-box',
+	},
 };
