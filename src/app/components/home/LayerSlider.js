@@ -1,14 +1,15 @@
-import React from 'react';
 import image1 from '../../images/layerslider/image-1.jpg';
 import image1Blur from '../../images/layerslider/image-1-blur2.jpg';
 import image2 from '../../images/layerslider/image-2.jpg';
 import image3 from '../../images/layerslider/image-3.jpg';
+import React from 'react';
 
 const styles = {
   main: {
-    marginTop: 20,
+    paddingTop: 20,
     width: 1160,
     height: 600,
+    background: 'white',
   },
   bgBlur: {
     top: '90%',

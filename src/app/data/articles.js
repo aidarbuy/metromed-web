@@ -1,4 +1,27 @@
 export default [{
+  title: "Hot Weather Illnesses",
+  date: 'June 12, 2016',
+  teaser: "The two hot-weather illnesses are Heat Exhaustion and Heat Stroke. Heat Exhaustion is when your body gets overheated, Heat Stroke is even more serious than Heat Exhaustion.",
+  twitter: "The two hot-weather illnesses are Heat Exhaustion and Heat Stroke. Heat Exhaustion is when your body gets overheated, Heat Stroke is even more serious than Heat Exhaustion.",
+  keywords: "hot weather, illness, illnesses",
+  text: [
+    'The two hot­weather illnesses are <ol><li>Heat Exhaustion</li><li>Heat Stroke</li></ol>',
+    '<strong>Heat Exhaustion</strong> is when your body gets overheated due to exposure to more heat­producing factors than it can compensate for. These heat­producing factors include:',
+    '<strong>External Factors</strong><ul><li>Hot and humid weather</li><li>Warm clothes</li><li>Wearing dark clothes on a sunny day</li></ul>',
+    '<strong>Internal Factors</strong><ul><li>Physical exertion</li><li>Dehydration</li><li>Being overweight</li><li>Drugs which increase body heat (stimulants decongestants, cocaine, amphetamine)</li><li>Drugs which decrease the body’s ability to compensate for heat stressors (beta blockers)</li><li>Advanced age. The elderly are more likely to experience heat exhaustion.</li>',
+    'Symptoms of <strong>Heat Exhaustion</strong> include:<ul><li>Nausea</li><li>Dizziness</li><li>Thirst</li><li>Fatigue</li><li>Headache</li><li>Excessive Sweating</li>',
+    '<br><strong>Heat Stroke</strong> is even more serious than Heat Exhaustion. Heat Stroke is when the heat exhaustion has gotten so bad that the body stops attempting to compensate, and loses its ability to compensate for the excess heat it’s experiencing. In Heat Stroke the body’s temperature rises very high.',
+    'Heat Stroke has the same causes as Heat Exhaustion (listed above), plus some additional ones:<ul><li>Hot cars. Babies and young children left inside hot cars will develop heat stroke quickly.</li><li>Certain medications (such as antipsychotic drugs) can make one more susceptible to Heat Stroke.</li></ul>',
+    '<br><strong>Both Heat Exhaustion and Heat Stroke are medical emergencies</strong>. Medical treatment should be sought immediately.',
+    'Prevention of heat exhaustion and heat stroke includes:<ul><li>Drinking water before you get thirsty</li><li>Wearing loose­fitting, light­colored clothing when in the heat</li><li>Not overly exerting yourself in the heat</li></ul>',
+  ],
+  img: {
+    title: "pre&#8209;Diagnoses",
+    src: 'hot-weather-illnesses',
+    // src: 'migraines',
+    alt: "Photo of a doctor with a medical papers"
+  }
+},{
   title: "Migraines",
   date: 'Apr 1, 2016',
   // teaser: "A migraine is a severe, debilitating headache.  It can be on one or both sides of the head.  It can involve visual changes.  It can involve nausea and vomiting.  Or it can involve none of these.  But it must be debilitating, or it isn't a migraine.  That is, it has to be so severe that it inhibits you from being able to perform some of your daily activities.",

@@ -9,7 +9,6 @@ import ServicesIcon from 'material-ui/svg-icons/maps/local-hospital';
 import Tab from 'material-ui/Tabs/Tab';
 import Tabs from 'material-ui/Tabs';
 import VirtualIcon from 'material-ui/svg-icons/action/three-d-rotation';
-
 require('../styles/app-tabs.scss');
 
 export default React.createClass({

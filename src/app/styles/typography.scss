@@ -2,12 +2,14 @@ html {
   font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
 }
+
 body {
   margin: 0;
   font-size: 18px;
   color:rgba(0, 0, 0, 0.87);
   line-height: 1.5;
 }
+
 h1, h2, h3, h4, h5, h6 {
   margin: 0;
   display: block;
@@ -17,6 +19,7 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-margin-end: 0px;
   text-align: center;
 }
+
 /* Display 4 */
 h1 {
   font-size: 112px;
@@ -24,6 +27,7 @@ h1 {
   line-height:128px;
 
 }
+
 /* Display 3 */
 h2 {
   margin-top: 35px;
@@ -32,6 +36,7 @@ h2 {
   line-height: 64px;
   margin-bottom: 25px;
 }
+
 /* Display 2 */
 h3 {
   color: rgba(0, 0, 0, 0.54);
@@ -41,6 +46,7 @@ h3 {
   line-height: 64px;
   margin-bottom: 35px;
 }
+
 /* Display 1 */
 h4 {
   margin-top: 10px;
@@ -49,39 +55,46 @@ h4 {
   line-height: 52px;
   margin-bottom: 35px;
 }
+
 /* Headline */
 h5 {
   font-size: 24px;
   font-weight: 400;
   line-height: 44px;
 }
+
 /* Title */
 h6 {
   font-size: 20px;
   font-weight: 600;
   line-height: 44px;
 }
+
 .subhead {
   font-size: 16px;
   font-weight: 400;
   line-height: 32px;
 }
+
 .menu {
   font-size: 14px;
   font-weight: 600;
   line-height: 32px;
 }
+
 button {
   font-size: 14px;
   text-transform: uppercase;
   font-weight: 600;
   line-height: 32px;
 }
+
 caption {
   font-size: 12px;
   font-weight: 400;
   line-height: 32px;
 }
+
 strong {
   font-weight: 500;
 }
@@ -108,29 +121,16 @@ strong {
 
 }
 
-.testimonials-primary-text {
-  font-size: 18px !important;
-  line-height: 1.4 !important;
-  text-align: left !important;
-  margin-left: 40px !important;
-}
-
 .doctors-card-text {
   font-size: 16px !important;
   text-align: left !important;
 }
 
-.button-top-left {
-  margin-top: 10px !important;
-}
-
-.article-header {
-  text-transform: capitalize;
-}
 .article-text {
   text-align: left;
   margin: 20;
 }
+
 .article-first-paragraph::first-letter {
   font-size: 200%;
   line-height: 1;

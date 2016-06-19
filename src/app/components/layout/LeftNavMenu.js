@@ -1,33 +1,51 @@
-import React    from 'react';
-import { Link } from 'react-router';
-import Menu         from 'material-ui/Menu';
-import MenuItem     from 'material-ui/MenuItem';
-import * as Colors  from 'material-ui/styles/colors';
-import HomeIcon     from 'material-ui/svg-icons/action/home';
-import AboutIcon    from 'material-ui/svg-icons/action/info';
-import ServicesIcon from 'material-ui/svg-icons/maps/local-hospital';
-import DoctorsIcon  from 'material-ui/svg-icons/social/people';
+import AboutIcon from 'material-ui/svg-icons/action/info';
+import AddressIcon from 'material-ui/svg-icons/action/room';
 import ArticlesIcon from 'material-ui/svg-icons/av/library-books';
-import MapIcon      from 'material-ui/svg-icons/maps/place';
-import VirtualIcon  from 'material-ui/svg-icons/action/three-d-rotation';
-import Divider      from 'material-ui/Divider';
-import AddressIcon  from 'material-ui/svg-icons/action/room';
+import Divider from 'material-ui/Divider';
+import DoctorsIcon from 'material-ui/svg-icons/social/people';
+import HomeIcon from 'material-ui/svg-icons/action/home';
+import { Link } from 'react-router';
+import MapIcon from 'material-ui/svg-icons/maps/place';
+import Menu from 'material-ui/Menu';
+import MenuItem from 'material-ui/MenuItem';
 import NavLink from './NavLink';
+import ServicesIcon from 'material-ui/svg-icons/maps/local-hospital';
+import React from 'react';
+import VirtualIcon from 'material-ui/svg-icons/action/three-d-rotation';
 
-export default React.createClass({
-  getInitialState() {
+class LeftNavMenu extends React.Component {
+  constructor(props) {
+    super(props);
     const pathname = this.props.location.pathname;
     const index = this.props.getInitIndex(pathname);
-    return {index};
-  },
+    const { textColor, iconColor } = this.props;
+    this.state = {
+      styles: {
+        innerDiv: {
+          width: 'auto',
+          paddingLeft: 47,
+          color: textColor,
+          textAlign:'left',
+        },
+        icon: {
+          marginLeft: 10,
+          fill: iconColor,
+        }
+      }
+    };
+  }
+
   handleTouchTap(route, index) {
     // console.debug("route: " + route + ", index: " + index)
     this.props.pushToRouter(route);
-    this.props.dispatchAction({type:"TOGGLE_LEFTNAV"});
     this.props.dispatchAction({type:"UPDATE_ROUTE", route});
     this.props.dispatchAction({type:"UPDATE_INDEX", index});
-  },
+    this.props.dispatchAction({type:"TOGGLE_LEFTNAV"});
+    this.props.toggleLeftNav();
+  }
+
   render() {
+    const { styles } = this.state;
     return (
       <Menu width={200}>
         <MenuItem primaryText="Home"
@@ -73,21 +91,8 @@ export default React.createClass({
           innerDivStyle={styles.innerDiv}
         />
       </Menu>
-    )
+    );
   }
-});
+}
 
-const styles = {
-  innerDiv : {
-    width: 'auto',
-    paddingLeft: 47,
-    color: Colors.blueGrey500,
-    // color: Colors.cyan700,
-    textAlign:'left',
-  },
-  icon : {
-    marginLeft: 10,
-    // fill: Colors.blueGrey500,
-    fill: Colors.cyan700,
-  }
-};
+export default LeftNavMenu;

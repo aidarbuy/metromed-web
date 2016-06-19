@@ -1,14 +1,13 @@
 import React from 'react';
 import Tabs  from 'material-ui/Tabs';
 import Tab   from 'material-ui/Tabs/Tab';
-import * as Colors from 'material-ui/styles/colors';
-
 require('../styles/app-tabs.scss');
 
 export default React.createClass({
   contextTypes: {
     store:  React.PropTypes.object,
     router: React.PropTypes.object,
+    muiTheme: React.PropTypes.object,
   },
   getInitialState() {
     const { store } = this.context;
@@ -33,14 +32,15 @@ export default React.createClass({
     this.context.store.dispatch({type:"UPDATE_ROUTE", route});
   },
   render() {
+    const { primary1Color } = this.context.muiTheme.palette;
     return (
-      <div style={{background:Colors.cyan500}}>
+      <div style={{background:primary1Color}}>
         <Tabs className="app-tabs"
           initialSelectedIndex={this.state.index}
           value={this.state.index}
           onChange={this.handleChange}
         >
-          <Tab label="Home" 
+          <Tab label="Home"
             value={0}
             onActive={this.handleActive}
           />

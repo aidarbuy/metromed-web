@@ -7,6 +7,7 @@ export default React.createClass({
 		return (
 		  <section>
 		  	<Helmet title="MetromedUC TeleMed" />
+
         <TeleMed />
 		  </section>
 		);

@@ -7,7 +7,9 @@
  */
 
 import io from 'socket.io-client';
-var socket = io('https://metromed-io2.herokuapp.com/');
+var socket0 = io('https://metromed-io.herokuapp.com/');
+var socket2 = io('https://metromed-io2.herokuapp.com/');
+var socket = (typeof socket0 === "Socket") ? socket2 : socket0;
 var localVideo, remoteVideo, startTime, localStream, pc, pc1, pc2;
 var servers = { iceServers: [{ urls: [
 	'stun:stun.l.google.com:19305',
@@ -37,7 +39,7 @@ function start() {
 	trace('Requesting local stream');
 	this.setState({startButtonDisabled: true});
 	navigator.mediaDevices.getUserMedia({
-		audio: false,
+		audio: true,
 		video: { width: 1280 }
 	})
 	.then(gotStream.bind(this))
@@ -83,35 +85,6 @@ function call() {
 	);
 }
 
-socket.on('offer', (desc) => {
-	pc2 = new RTCPeerConnection(servers);
-	trace('Created remote peer connection object pc2');
-	pc2.addStream(localStream);
-	console.debug('Added local stream to pc2');
-	trace('pc2 setRemoteDescription start');
-	pc2.setRemoteDescription(desc).then(
-		function() {
-			onSetRemoteSuccess(pc2);
-		},
-		onSetSessionDescriptionError
-	);
-	pc2.onicecandidate = function(e) {
-		onIceCandidate(pc2, e);
-	};
-	pc2.oniceconnectionstatechange = function(e) {
-		onIceStateChange(pc2, e);
-	};
-	trace('pc2 createAnswer start');
-	// Since the 'remote' side has no media stream we need
-	// to pass in the right constraints in order for it to
-	// accept the incoming offer of audio and video.
-	pc2.createAnswer().then(
-		onCreateAnswerSuccess,
-		onCreateSessionDescriptionError
-	);
-	pc2.onaddstream = gotRemoteStream;
-});
-
 function onCreateSessionDescriptionError(error) {
 	trace('Failed to create session description: ' + error.toString());
 }
@@ -143,6 +116,10 @@ function onSetSessionDescriptionError(error) {
 function gotRemoteStream(e) {
 	remoteVideo.srcObject = e.stream;
 	trace('pc2 received remote stream');
+	this.setState({
+		callButtonDisabled: true,
+		hangupButtonDisabled: false,
+	});
 }
 
 function onCreateAnswerSuccess(desc) {
@@ -156,18 +133,6 @@ function onCreateAnswerSuccess(desc) {
 		onSetSessionDescriptionError
 	);
 }
-
-socket.on('answer', (desc) => {
-	trace('pc1 setRemoteDescription start');
-	pc1.setRemoteDescription(desc).then(
-		function() {
-			onSetRemoteSuccess(pc1);
-			console.debug('pc1.setRemoteDescription');
-		},
-		onSetSessionDescriptionError
-	);
-	pc1.onaddstream = gotRemoteStream;
-});
 
 function onIceCandidate(pc, event) {
 	if (event.candidate) {
@@ -210,12 +175,13 @@ function onIceStateChange(pc, event) {
 
 function hangup() {
 	trace('Ending call');
-	pc1.close();
-	pc2.close();
-	pc1 = null;
-	pc2 = null;
-	hangupButton.disabled = true;
-	callButton.disabled = false;
+	pc = pc1 ? pc1 : pc2;
+	pc.close();
+	pc = null;
+	this.setState({
+		hangupButtonDisabled: true,
+		callButtonDisabled: false,
+	});
 }
 
 import React from 'react';
@@ -263,9 +229,48 @@ export default class WebRTC extends React.Component {
 	componentDidMount() {
 		localVideo = this.refs.localVideo;
 		remoteVideo = this.refs.remoteVideo;
+		socket.on('offer', (desc) => {
+			pc2 = new RTCPeerConnection(servers);
+			trace('Created remote peer connection object pc2');
+			pc2.addStream(localStream);
+			console.debug('Added local stream to pc2');
+			trace('pc2 setRemoteDescription start');
+			pc2.setRemoteDescription(desc).then(
+				function() {
+					onSetRemoteSuccess(pc2);
+				},
+				onSetSessionDescriptionError
+			);
+			pc2.onicecandidate = function(e) {
+				onIceCandidate(pc2, e);
+			};
+			pc2.oniceconnectionstatechange = function(e) {
+				onIceStateChange(pc2, e);
+			};
+			trace('pc2 createAnswer start');
+			// Since the 'remote' side has no media stream we need
+			// to pass in the right constraints in order for it to
+			// accept the incoming offer of audio and video.
+			pc2.createAnswer().then(
+				onCreateAnswerSuccess,
+				onCreateSessionDescriptionError
+			);
+			pc2.onaddstream = gotRemoteStream.bind(this);
+		});
+		socket.on('answer', (desc) => {
+			trace('pc1 setRemoteDescription start');
+			pc1.setRemoteDescription(desc).then(
+				function() {
+					onSetRemoteSuccess(pc1);
+					console.debug('pc1.setRemoteDescription');
+				},
+				onSetSessionDescriptionError
+			);
+			pc1.onaddstream = gotRemoteStream.bind(this);
+		});
 	}
 	render() {
-		const buttonsSliced = buttons.slice(0, 2);
+		const buttonsSliced = buttons.slice(0, 3);
 		const buttonsMapped = buttonsSliced.map((button, i) => (
 			<RaisedButton key={i} ref={button.ref} label={button.label}
 				primary={button.primary} secondary={button.secondary}
@@ -280,7 +285,7 @@ export default class WebRTC extends React.Component {
 				</CardActions>
 				<CardMedia>
 					<div>
-						<video autoPlay ref="localVideo" poster={LOCAL_POSTER} style={styles.video}>{BROWSER_MESSAGE}</video>
+						<video muted autoPlay ref="localVideo" poster={LOCAL_POSTER} style={styles.video}>{BROWSER_MESSAGE}</video>
 						<video autoPlay ref="remoteVideo" poster={REMOTE_POSTER} style={styles.video}>{BROWSER_MESSAGE}</video>
 					</div>
 				</CardMedia>

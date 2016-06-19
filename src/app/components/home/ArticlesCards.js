@@ -1,4 +1,3 @@
-import { grey50 } from'material-ui/styles/colors';
 import ArticleCard from '../cards/ArticleCard';
 import data from '../../data/articles';
 import Paper from 'material-ui/Paper';
@@ -13,14 +12,13 @@ export default React.createClass({
     const sliced = data.slice(0, 4);
     const articles = sliced.map((article, index) => (
       <div key = {article.title} className="article-item">
-        <ArticleCard
-          title    = {article.title}
-          subtitle = {article.date}
-          img      = {article.img.src}
-          teaser   = {article.teaser}
+        <ArticleCard 
+          title={article.title} subtitle={article.date}
+          img={article.img.src} teaser={article.teaser}
         />
       </div>
     ));
+    const { accentColor, canvasColor } = this.props;
     return (
       <Paper>
         <Toolbar>
@@ -28,19 +26,19 @@ export default React.createClass({
             <ToolbarTitle text="Articles" />
           </ToolbarGroup>
         </Toolbar>
+
         <div className="flex-container">{articles}</div>
-        <Toolbar style={{width:'100%',background:grey50}}>
-          <ToolbarGroup style={{
-            width: '100%',
-            textAlign: 'center',
-            // border:'1px solid red'
-          }}>
-            <RaisedButton label="All Articles" href="/articles"
+
+        <Toolbar style={{width:'100%', background:canvasColor}}>
+          <ToolbarGroup style={{width:'100%', textAlign:'center'}}>
+            <RaisedButton 
+              label="All Articles" href="/articles"
               fullWidth={true} linkButton={true}
+              secondary={true}
               style={{
                 width: '100%',
-                marginLeft:'auto',
-                marginRight:'auto',
+                marginLeft: 'auto',
+                marginRight: 'auto'
               }}
             />
           </ToolbarGroup>

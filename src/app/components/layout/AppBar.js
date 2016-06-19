@@ -6,8 +6,7 @@ import { Link } from 'react-router';
 import MenuItem from 'material-ui/MenuItem';
 import MoreIcon from 'material-ui/svg-icons/navigation/more-vert';
 import React from 'react';
-
-require('../styles/app-tabs.scss');
+require('../../styles/app-tabs.scss');
 
 const titles = [
   "Metromed Urgent Care",
@@ -24,7 +23,8 @@ export default React.createClass({
     };
   },
   handleTouchTap() {
-    this.props.dispatchAction({type:'TOGGLE_LEFTNAV'});
+    // this.props.dispatchAction({type:'TOGGLE_LEFTNAV'});
+    this.props.toggleLeftNav();
   },
   handleTitleTouchTap() {
     var storeState = this.props.getStoreState();
@@ -33,6 +33,15 @@ export default React.createClass({
     this.props.dispatchAction({type:"UPDATE_APPBARTITLE", title:titles[index], index:++index});
     storeState = this.props.getStoreState();
     this.setState({ title: storeState.appBar.title });
+  },
+  switchTheme() {
+    console.debug("Switching theme");
+    const { toggled } = this.props.getStoreState().appFooter;
+    if (toggled) {
+      this.props.dispatchAction({type:"TOGGLE_THEME", false});
+    } else {
+      this.props.dispatchAction({type:"TOGGLE_THEME", toggled});
+    }
   },
   render() {
     return (
@@ -50,10 +59,14 @@ export default React.createClass({
               primaryText="Reload this page" 
               onTouchTap={()=>{location.reload()}}
             />
+            <MenuItem 
+              primaryText="Telemed sevice"
+              containerElement={<Link to="/telemed" />}
+            />
             {/*
             <MenuItem 
-              primaryText="Telemedicine" 
-              containerElement={<Link to="/telemed" />}
+              primaryText="Switch theme"
+              onTouchTap={this.switchTheme}
             />
             <MenuItem 
               primaryText="Visa 4 UK"

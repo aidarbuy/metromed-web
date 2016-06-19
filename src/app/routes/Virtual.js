@@ -1,16 +1,22 @@
-import React  from 'react';
 import Helmet from 'react-helmet';
+import React from 'react';
 
-const scrHeight = window.screen.height;
-const height = 0.98 * scrHeight - (scrHeight / 2);
+class Virtual extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
-export default React.createClass({
   render() {
+    const scrHeight = window.screen.height;
+    const height = 0.98 * scrHeight - (scrHeight / 2);
+    const { primary2Color } = this.context.muiTheme.palette;
+
     return (
       <section>
         <Helmet title="Virtual Tour - MetromedUC"/>
 
-        <h3>Virtual Tour</h3>
+        <h3 style={{marginBottom:0}}>Virtual Tour</h3>
+        <p style={{color:primary2Color, textAlign:'center'}}>Walk through our clinic in 360° virtual tour:</p>
 
         <iframe 
           ref="iframe"
@@ -22,4 +28,10 @@ export default React.createClass({
       </section>
     );
   }
-});
+}
+
+Virtual.contextTypes = {
+  muiTheme: React.PropTypes.object,
+};
+
+export default Virtual;

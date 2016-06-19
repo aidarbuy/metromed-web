@@ -1,12 +1,12 @@
+import { applyRouterMiddleware, Router, browserHistory } from 'react-router';
+import { createStore } from 'redux';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import { Provider } from 'react-redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import routes  from './Routes';
-import { createStore } from 'redux';
 import reducer from './reducers/index';
-import { applyRouterMiddleware, Router, browserHistory } from 'react-router';
-import { Provider } from 'react-redux';
-import injectTapEventPlugin from 'react-tap-event-plugin';
-import useScroll from 'react-router-scroll';
+import routes  from './Routes';
+// import useScroll from 'react-router-scroll';
 
 // Needed for onTouchTap. Can go away on react 1.0
 // https://github.com/zilverline/react-tap-event-plugin
@@ -24,7 +24,6 @@ ReactDOM.render(
     <Router routes={routes} 
     	history={browserHistory} 
     	onUpdate={()=> window.scrollTo(0, 0)}
-    	render={applyRouterMiddleware(useScroll())}
     />
   </Provider>, 
   document.getElementById('app')

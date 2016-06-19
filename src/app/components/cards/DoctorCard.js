@@ -1,55 +1,65 @@
-import React       from 'react';
-import { Link }    from 'react-router';
-import Card        from 'material-ui/Card';
-import CardMedia   from 'material-ui/Card/CardMedia';
-import CardTitle   from 'material-ui/Card/CardTitle';
-import CardText    from 'material-ui/Card/CardText';
-import CardActions from 'material-ui/Card/CardActions';
-import Button      from 'material-ui/RaisedButton';
-import Icon        from 'material-ui/svg-icons/navigation/arrow-forward';
+import {Card, CardActions, CardMedia, CardText, CardTitle} from 'material-ui/Card';
+import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward';
+import { Link } from 'react-router';
+import RaisedButton from 'material-ui/RaisedButton';
+import React from 'react';
 
 export default React.createClass({
-  contextTypes: {
-    store:  React.PropTypes.object,
-  },
-  render() {
-    const { doc } = this.props;
-    const fullName = doc.firstname + " " + doc.lastname;
-    const route = "/doctors/" + doc.id;
-    const { store } = this.context;
-    return (
-      <Card style={{
-        /*margin: 5px;*/
-        boxSizing:'border-box',
-        minHeight:490,
-        // border:'1px dashed red',
-      }}>
-        <CardMedia overlay={
-          <CardTitle title={"Dr. " + fullName}/>}
-          overlayContentStyle={{
-            background:'rgba(0, 188, 212, 0.7)', 
-            bottom:-1,
-            margin:0,
-            padding:0,
-          }}
-        >
-          <img src={require('../../images/doctors/' + doc.img.big)}/>
-        </CardMedia>
-        <CardTitle className="doctor-card-title" 
-          title={doc.speciality} subtitle={doc.title}/>
-        <CardText className="doctor-card-text">{doc.description[0]}</CardText>
-        <CardActions style={{textAlign:'right'}}>
-          <Button label="Read more" 
-            labelPosition="before" 
-            tooltip={"Read about doctor " + fullName}
-            icon={<Icon/>} 
-            linkButton={true}
-            secondary={true} 
-            containerElement={<Link to={route} />}
-            onTouchTap={() => {store.dispatch({type:"UPDATE_ROUTE", route})}}
-          />
-        </CardActions>
-      </Card>
-    );
-  }
+	handleTouchTap(route) {
+		this.props.dispatchAction({type:"UPDATE_ROUTE", route});
+	},
+
+	render() {
+		const { doctor, color } = this.props;
+		const fullName = doctor.firstname + " " + doctor.lastname;
+		const route = "/doctors/" + doctor.id;
+		const colorRGB = hexToRgb(color);
+		const bgColor = colorRGB.r + ", " + colorRGB.g + ", " + colorRGB.b;
+
+		return (
+			<Card style={{boxSizing:'border-box', minHeight:490}}>
+				<CardMedia overlay={<CardTitle title={"Dr. " + fullName}/>} overlayContentStyle={{
+					background: 'rgba(' + bgColor + ', 0.7)',
+					bottom: -1,
+					margin: 0,
+					padding: 0,
+				}}>
+					<img src={require('../../images/doctors/' + doctor.img.big)} />
+				</CardMedia>
+
+				<CardTitle
+					title    = {doctor.speciality}
+					subtitle = {doctor.title} 
+				/>
+
+				<CardText style={{ fontSize:16 }}>
+					{doctor.description[0]}
+				</CardText>
+
+				<CardActions style={{textAlign:'right'}}>
+					<RaisedButton
+						containerElement = { <Link to={route} /> }
+						icon          = { <ArrowForward /> }
+						label         = "Read more"
+						labelPosition = "before"
+						linkButton    = { true }
+						onTouchTap    = { (route) => { this.handleTouchTap(route) } }
+						secondary     = { true }
+						style         = {{ marginBottom: 20 }}
+						tooltip       = { "Read about doctor " + fullName }
+					/>
+				</CardActions>
+			</Card>
+		);
+	}
 });
+
+const hexToRgb = (hex) => {
+	var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+
+	return result ? {
+		r: parseInt(result[1], 16),
+		g: parseInt(result[2], 16),
+		b: parseInt(result[3], 16)
+	} : null;
+};
