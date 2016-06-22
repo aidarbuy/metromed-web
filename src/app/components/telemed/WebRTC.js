@@ -6,6 +6,8 @@
  *  tree.
  */
 
+// require('https://webrtc.github.io/adapter/adapter-latest.js');
+
 import io from 'socket.io-client';
 var socket0 = io('https://metromed-io.herokuapp.com/');
 var socket2 = io('https://metromed-io2.herokuapp.com/');

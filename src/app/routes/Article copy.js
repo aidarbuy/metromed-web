@@ -1,5 +1,5 @@
 import articles from '../data/articles';
-// import ArticleToolbar from '../components/ui/ArticleToolbar';
+import ArticleToolbar from '../components/ui/ArticleToolbar';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import Helmet from 'react-helmet';
@@ -60,23 +60,50 @@ class Article extends React.Component {
 		const article = this.state.currArticle;
 		const prevArticle = this.state.prevArticle.img.src;
 		const nextArticle = this.state.nextArticle.img.src;
-		const { articleIndex, prevButtonDisabled, nextButtonDisabled } = this.state;
-		const articlesTotal = articles.length;
-		const label = articleIndex + "/" + articlesTotal;
-		const { canvasColor, accent2Color, textColor, borderColor } = this.context.muiTheme.palette;
+
 		const articleText = article.text.map((p, i) => {
 			if (i === 0) return <p key={i} className="article-first-paragraph" dangerouslySetInnerHTML={{__html:p}} />;
 			return <p key={i} dangerouslySetInnerHTML={{__html:p}} />;
 		});
+
+		const { 
+			articleIndex,
+			prevButtonDisabled,
+			nextButtonDisabled,
+		} = this.state;
+
+		const articlesTotal = articles.length;
+		const label = articleIndex + "/" + articlesTotal;
+
+		const { 
+			canvasColor, 
+			accent2Color, 
+			textColor, 
+			borderColor 
+		} = this.context.muiTheme.palette;
 
 		return (
 			<article>
 				<Helmet title={article.title + " - MetromedUC"} />
 
 				<Card style={{margin:-20}}>
+					<CardActions>
+						<ArticleToolbar
+							label 	= {label}
+							canvas 	= {canvasColor}
+							border 	= {borderColor}
+							prev 	= {prevArticle}
+							next 	= {nextArticle}
+							prevBtn = {prevButtonDisabled}
+							nextBtn = {nextButtonDisabled}
+							borderTop 	 = {0}
+							borderBottom = {0}
+						/>
+					</CardActions>
+
 					<CardHeader
 						title="Matthew Beckwith"
-						subtitle="Doctor of Medicine"
+						subtitle="MD"
 						avatar={require('../images/articles/matthew-100x100.jpg')}
 					/>
 
@@ -87,10 +114,29 @@ class Article extends React.Component {
 							titleStyle = {{ color: accent2Color }}
 						/>
 					}>
-						<img src = {require('../images/articles/' + article.img.src + '-600x300.jpg')}/>
+						<img src = {require(
+							'../images/articles/' + article.img.src + '-600x300.jpg'
+						)}/>
 					</CardMedia>
 
-					<CardText style={{fontSize: 16, padding: '5%',}}>{articleText}</CardText>
+					<CardText style={{
+						fontSize: 16,
+						// background: 'red',
+						padding: '5%',
+					}}>{articleText}</CardText>
+
+					<CardActions>
+						<ArticleToolbar label={label}
+							canvas 	= {canvasColor} 
+							border 	= {borderColor}
+							prev 	= {prevArticle} 
+							next 	= {nextArticle}
+							prevBtn = {prevButtonDisabled} 
+							nextBtn = {nextButtonDisabled}
+							borderTop 	 = {0} 
+							borderBottom = {0}
+						/>
+					</CardActions>
 				</Card>
 			</article>
 		)

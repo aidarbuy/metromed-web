@@ -3,27 +3,24 @@
 // import FlatButton from 'material-ui/FlatButton';
 import Helmet from 'react-helmet';
 import React from 'react';
-import Firebase from 'firebase';
 
 class Test extends React.Component {
-	mixins: [ReactFireMixin]
-
 	constructor(props) {
 		super(props);
 		this.state = {
-			testProp: "Test Property State 1",
+			seconds: 0,
 		};
 	}
 
 	componentWillMount() {
-	  var ref = new Firebase("https://metromeduc.firebaseio.com/test");
-	  this.bindAsArray(ref, "test");
+		// var ref = new Firebase("https://metromeduc.firebaseio.com/test");
+		// this.bindAsArray(ref, "test");
 	}
 
 	componentDidMount() {
-		setTimeout(() => {
-			this.setState({testProp: "Test Property State 2"});
-		}, 2000);
+		setInterval(() => {
+			this.setState({counter: this.state.seconds++});
+		}, 1000);
 	}
 
 	render() {
@@ -33,7 +30,7 @@ class Test extends React.Component {
 
 				<h3>Firebase</h3>
 
-				<h3>{this.state.testProp}</h3>
+				<h3>{this.state.seconds}</h3>
 			</section>
 		);
 	}

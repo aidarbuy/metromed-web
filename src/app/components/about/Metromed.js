@@ -14,7 +14,7 @@ import FlatButton from 'material-ui/FlatButton';
 import List from 'material-ui/List';
 import ListItem from 'material-ui/List/ListItem';
 import React from 'react';
-import xRay from '../../images/gallery/x-ray.jpg';
+import xRay from '../../images/about/x-ray-710x399.jpg';
 
 export default React.createClass({
   render() {

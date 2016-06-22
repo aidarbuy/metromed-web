@@ -3,35 +3,41 @@ import FontIcon from 'material-ui/FontIcon';
 import RaisedButton from 'material-ui/RaisedButton';
 import React from 'react';
 import ReadMoreIcon  from 'material-ui/svg-icons/action/description';
+import { Link } from 'react-router';
 
 export default React.createClass({
 	render() {
 		const { props } = this;
-		const img = props.img;
-		const src = require("../../images/articles/" + img + "-600x300.jpg");
 
 		return (
 			<Card style={{minHeight:420}}>
 				<CardMedia overlay={
-					<CardTitle title={props.title} subtitle={props.subtitle} />
+					<CardTitle
+						title 	 = { props.title }
+						subtitle = { props.subtitle }
+					/>
 				}>
-					<img src={src} />
+					<img src = { require('../../images/articles/' + props.img + '-600x300.jpg') } />
 				</CardMedia>
 
-				<CardText dangerouslySetInnerHTML={{__html:props.teaser}} style={{
-					fontSize: 16,
-					textAlign: 'left',
-				}}/>
+				<CardText
+					dangerouslySetInnerHTML = {{ __html:props.teaser }}
+					style = {{ fontSize:16, textAlign:'left' }}
+				/>
 
 				<CardActions style={{textAlign:'right'}}>
 					<RaisedButton
-						icon={<ReadMoreIcon />}
-						href={"/articles/" + props.img}
-						label="Read more"
-						labelPosition="before"
-						linkButton={true}
-						primary={false} secondary={true}
-						style={{margin:12}}
+						containerElement = {
+							<Link to={'/articles/' + props.img} />
+						}
+						icon 	= { <ReadMoreIcon /> }
+						label = "Read more"
+						labelPosition = "before"
+						linkButton 		= { true }
+						primary 			= { false }
+						secondary 		= { true }
+						style 				= {{ margin: 12 }}
+						tooltip 			= { "Read article" }
 					/>
 				</CardActions>
 			</Card>

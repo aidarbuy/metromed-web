@@ -14,17 +14,17 @@ injectTapEventPlugin();
 
 // Providing store over context
 Provider.childContextTypes = {
-  store: React.PropTypes.object
+	store: React.PropTypes.object
 };
 
 // Render the main app react component into the app div.
 // For more details see: https://facebook.github.io/react/docs/top-level-api.html#react.render
 ReactDOM.render(
-  <Provider store={createStore(reducer)}>
-    <Router routes={routes} 
-    	history={browserHistory} 
-    	onUpdate={()=> window.scrollTo(0, 0)}
-    />
-  </Provider>, 
-  document.getElementById('app')
+	<Provider store={createStore(reducer)}>
+		<Router routes={routes} 
+			history={browserHistory} 
+			onUpdate={()=> window.scrollTo(0, 0)}
+		/>
+	</Provider>, 
+	document.getElementById('app')
 );

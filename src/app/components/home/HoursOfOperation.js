@@ -30,6 +30,12 @@ function getStyles(textColor, colonColor, bgColor) {
   };
 }
 
+const hours = [
+  ["Sunday", ":", "closed"],
+  ["Monday &ndash; Friday", ":", "10 am to 8 pm"],
+  ["Saturday", ":", "closed"]
+];
+
 class HoursOfOperation extends React.Component {
   constructor(props) {
     super(props);
@@ -44,6 +50,9 @@ class HoursOfOperation extends React.Component {
 
   render() {
     const { styles } = this.state;
+    // const hoursRow = hours.map((row, i) => {
+    //   console.debug(row)
+    // });
 
     return (
       <Table style={{background: this.props.bgColor}}>
@@ -60,7 +69,7 @@ class HoursOfOperation extends React.Component {
             <TableRowColumn style={styles.right}>10 am to 8 pm</TableRowColumn>
           </TableRow>
 
-          <TableRow style={{backgroundImage:'linear-gradient(to right, black, rgba(0, 0, 0, 0)) 1 100%'}}>
+          <TableRow>
             <TableHeaderColumn style={styles.left}>Saturday</TableHeaderColumn>
             <TableHeaderColumn style={styles.center}>:</TableHeaderColumn>
             <TableHeaderColumn style={styles.right}>closed</TableHeaderColumn>

@@ -9,12 +9,11 @@ import Doctor    from './routes/Doctor';
 import Doctors   from './routes/Doctors';
 import Gallery   from './routes/Gallery';
 import Home      from './routes/Home';
-import Layout    from './containers/Layout';
+import Layout    from './Layout';
 import Location  from './routes/Location';
 import MuiTheme  from './routes/MuiTheme';
 // import NotFound  from "./routes/NotFound";
 import Palette   from './routes/Palette';
-import Primary   from './routes/Primary';
 import React     from "react";
 import { Route, Redirect, IndexRoute, NotFoundRoute }  from "react-router";
 import Router    from './routes/Router';
@@ -51,7 +50,6 @@ module.exports = (
     <Route path="/location"     component={Location}  />
     <Route path="/mui-theme"    component={MuiTheme}  />
     <Route path="/palette"      component={Palette}   />
-    <Route path="/primary"      component={Primary}   />
     <Route path="/router"       component={Router}    />
     <Route path="/services"     component={Services}  />
     <Route path="/telemed"      component={Telemed}   />

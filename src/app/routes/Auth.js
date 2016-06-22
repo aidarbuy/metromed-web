@@ -13,23 +13,23 @@ const GITHUB_PROVIDER_ID = 'cd5e904e3e0215e6930c';
 const EMAIL_PROVIDER_ID = '466589189893-li171g4hh0bprcd8a6ebatod8ap4j01l.apps.googleusercontent.com';
 
 // FirebaseUI config.
-var uiConfig = {
-  'signInSuccessUrl': '/',
-  'signInOptions': [
-    firebase.auth.GoogleAuthProvider.GOOGLE_PROVIDER_ID,
-    firebase.auth.FacebookAuthProvider.FACEBOOK_PROVIDER_ID,
-    firebase.auth.TwitterAuthProvider.TWITTER_PROVIDER_ID,
-    firebase.auth.GithubAuthProvider.GITHUB_PROVIDER_ID,
-    firebase.auth.EmailAuthProvider.EMAIL_PROVIDER_ID
-  ],
-  // Terms of service url.
-  // 'tosUrl': '<your-tos-url>',
-};
+// var uiConfig = {
+//   'signInSuccessUrl': '/',
+//   'signInOptions': [
+//     firebase.auth.GoogleAuthProvider.GOOGLE_PROVIDER_ID,
+//     firebase.auth.FacebookAuthProvider.FACEBOOK_PROVIDER_ID,
+//     firebase.auth.TwitterAuthProvider.TWITTER_PROVIDER_ID,
+//     firebase.auth.GithubAuthProvider.GITHUB_PROVIDER_ID,
+//     firebase.auth.EmailAuthProvider.EMAIL_PROVIDER_ID
+//   ],
+//   // Terms of service url.
+//   // 'tosUrl': '<your-tos-url>',
+// };
 
 // Initialize the FirebaseUI Widget using Firebase.
-var app = firebase.initializeApp(config);
-var auth = app.auth();
-var ui = new firebaseui.auth.AuthUI(auth);
+// var app = firebase.initializeApp(config);
+// var auth = app.auth();
+// var ui = new firebaseui.auth.AuthUI(auth);
 
 import React from 'react';
 

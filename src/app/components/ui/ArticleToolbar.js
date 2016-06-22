@@ -1,6 +1,7 @@
 import ArrowBack from 'material-ui/svg-icons/image/navigate-before';
 import ArrowForward from 'material-ui/svg-icons/image/navigate-next';
 import ArrowUp from 'material-ui/svg-icons/navigation/arrow-upward';
+import { Link } from 'react-router';
 import RaisedButton from 'material-ui/FlatButton';
 import React from 'react';
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar';
@@ -14,16 +15,38 @@ export default ({canvas, border, prev, prevBtn, label, next, nextBtn, borderTop,
 		borderBottomWidth: borderBottom,
 	}}>
 		<ToolbarGroup firstChild={true}>
-			<RaisedButton label="Previous" labelPosition="after" primary={true} disabled={prevBtn}
-				icon={<ArrowBack/>} linkButton={true} href={"/articles/" + prev} 
+			<RaisedButton
+				disabled 	  = { prevBtn }
+				icon 		  = { <ArrowBack/> }
+				href 		  = { "/articles/" + prev }
+				label 		  = "Previous"
+				labelPosition = "after"
+				linkButton 	  = { true }
+				primary 	  = { true }
 			/>
 		</ToolbarGroup>
+
 		<ToolbarGroup>
-			<RaisedButton label={label} labelPosition="after" primary={true} linkButton={true} href="/articles" />
+			<RaisedButton
+				href 		  = "/articles"
+				label 		  = { label }
+				labelPosition = "after"
+				linkButton 	  = { true }
+				primary 	  = { true }
+			/>
 		</ToolbarGroup>
+
 		<ToolbarGroup lastChild={true}>
-			<RaisedButton label="Next" labelPosition="before" primary={true} disabled={nextBtn} 
-				icon={<ArrowForward />} linkButton={true} href={"/articles/" + next} 
+			<RaisedButton
+				containerElement = {
+					<Link to={'/articles/' + next} />
+				}
+				icon = { <ArrowForward /> }
+				label = {next}
+				labelPosition = "before"
+				linkButton = { true }
+				primary = { true }
+				disabled = { nextBtn } 
 			/>
 		</ToolbarGroup>
 	</Toolbar>
