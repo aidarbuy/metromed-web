@@ -235,7 +235,6 @@ export default class WebRTC extends React.Component {
 			pc2 = new RTCPeerConnection(servers);
 			trace('Created remote peer connection object pc2');
 			pc2.addStream(localStream);
-			console.debug('Added local stream to pc2');
 			trace('pc2 setRemoteDescription start');
 			pc2.setRemoteDescription(desc).then(
 				function() {
@@ -264,7 +263,6 @@ export default class WebRTC extends React.Component {
 			pc1.setRemoteDescription(desc).then(
 				function() {
 					onSetRemoteSuccess(pc1);
-					console.debug('pc1.setRemoteDescription');
 				},
 				onSetSessionDescriptionError
 			);

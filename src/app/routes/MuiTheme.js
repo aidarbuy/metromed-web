@@ -82,7 +82,7 @@ class MuiTheme extends React.Component {
           />;
 
         default:
-          // console.debug("key type is unknown");
+          // consol.debug("key type is unknown");
       }
     });
 
@@ -91,7 +91,6 @@ class MuiTheme extends React.Component {
   
   getPropsFrom(object) {
     var props = Object.keys(object).map((propName, i, arr) => {
-      // console.debug("arr:", arr);
       return (
         <div key={propName}>
           <ListItem>

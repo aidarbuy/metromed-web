@@ -1,0 +1,13 @@
+.cell {
+  text-align: center;
+  min-height: 300px;
+  margin: 0px 0px;
+  padding-top: 10px;
+  line-height: 200px;
+  opacity: 0.9;
+  transition: opacity 4s ease-out 2s;
+}
+
+.cell:hover {
+  opacity: 1;
+}

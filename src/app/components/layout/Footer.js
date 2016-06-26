@@ -1,23 +1,16 @@
-import { convertColorToString, decomposeColor } from 'material-ui/utils/colorManipulator';
-import { cyan900 } from 'material-ui/styles/colors';
 import dataSocial from '../../data/social';
+import DropDownMenu from 'material-ui/DropDownMenu';
 import IconButton from 'material-ui/IconButton';
 import IconFacebook from '../icons/IconFacebook';
 import IconGoogle from '../icons/IconGooglePlus';
 import IconInstagram from '../icons/IconInstagram';
+import Menu from 'material-ui/Menu';
+import MenuItem from 'material-ui/MenuItem';
+import Popover from 'material-ui/Popover';
 import Toggle from 'material-ui/Toggle';
-import Toolbar from 'material-ui/Toolbar';
-import ToolbarGroup from 'material-ui/Toolbar/ToolbarGroup';
-import ToolbarTitle from 'material-ui/Toolbar/ToolbarTitle';
+import RaisedButton from 'material-ui/RaisedButton';
+import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar';
 import React from 'react';
-
-function componentToHex(c) {
-	var hex = c.toString(16);
-	return hex.length == 1 ? "0" + hex : hex;
-}
-function rgbToHex(r, g, b) {
-	return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-}
 
 const Icon = React.createClass({
 	render() {
@@ -34,41 +27,66 @@ const Icon = React.createClass({
 	}
 });
 
-function getShadowHexColor(shadowColor) {
-	const decomposed = decomposeColor(shadowColor);
-	const rgb = decomposed.values;
-	return rgbToHex(rgb[0], rgb[1], rgb[2]);
-}
-
-const social = dataSocial.slice(0, 3);
-
-export default ({ bgColor, setTheme, isThemeDark, shadowColor, textColor, thumbColor, trackColor }) => (
-	<Toolbar style={{marginTop:20}}>
+export default ({ 
+	anchorEl, bgColor, footerMenuValue, getShadowHexColor,
+	isPopoverOpen, isThemeDark, primary3Color, 
+	setMainState, setTheme, shadowColor, 
+	textColor, thumbColor, trackColor,
+}) => (
+	<Toolbar style={{
+		marginTop: 30,
+	}}>
 		<ToolbarGroup float="left" firstChild={false}>
-			{social.map((icon, index) => (
+			{dataSocial.slice(0, 3).map((icon, index) => (
 				<a key={icon.name} href={icon.href}>
 					<IconButton touch tooltip={icon.desc} tooltipPosition="top-right" style={{marginTop:4}}>
-						<Icon iconName={icon.icon} styles={{boxShadow:'1px 1px 3px' + getShadowHexColor(shadowColor)}}/>
+						<Icon
+							iconName = { icon.icon }
+							styles = {{ boxShadow:'1px 1px 3px' + getShadowHexColor(primary3Color) }}
+						/>
 					</IconButton>
 				</a>
 			))}
 		</ToolbarGroup>
-		
+		{/*
+
+		<ToolbarGroup firstChild={true}>
+	    <RaisedButton
+				onTouchTap = { () => setMainState({ isPopoverOpen:true, anchorEl: }) }
+				label = "Social"
+			/>
+	      <Popover
+	        open = { isPopoverOpen }
+	        anchorEl = { anchorEl }
+	        anchorOrigin = {{ horizontal: 'left', vertical: 'bottom' }}
+	        targetOrigin = {{ horizontal: 'left', vertical: 'top' }}
+	        onRequestClose = { () => setMainState({ isPopoverOpen:false }) }
+	      >
+	        <Menu>
+	          <MenuItem primaryText="Refresh" />
+	          <MenuItem primaryText="Help &amp; feedback" />
+	          <MenuItem primaryText="Settings" />
+	          <MenuItem primaryText="Sign out" />
+	        </Menu>
+	      </Popover>
+	  </ToolbarGroup>
+		*/}
+
 		<ToolbarGroup>
-			<Toggle name="TheToggle"
-				onToggle   = {(e, toggled) => { setTheme(toggled) }}
-				toggled    = { isThemeDark }
-				style      = {{ margin:'auto' }}
-				thumbStyle = {{ background: thumbColor }}
-				trackStyle = {{ background: trackColor }}
+			<Toggle
+				className = "footer-theme-toggle"
+				label 		= "Night mode"
+				onToggle 	= {(e, toggled) => { setTheme(toggled) }}
+				style 		= {{ margin:'auto' }}
+				toggled 	= { isThemeDark }
 			/>
 		</ToolbarGroup>
 
 		<ToolbarGroup float="right" lastChild={false}>
-			<ToolbarTitle text="&copy; 2016 Amygdala LLC" style={{
-				color: thumbColor,
-				fontSize: 16,
-			}}/>
+			<ToolbarTitle
+				style = {{ fontSize:16 }}
+				text  = "&copy; 2016 Amygdala LLC"
+			/>
 		</ToolbarGroup>
 	</Toolbar>
 );

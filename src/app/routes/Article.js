@@ -73,7 +73,7 @@ class Article extends React.Component {
 			<article>
 				<Helmet title={article.title + " - MetromedUC"} />
 
-				<Card style={{margin:-20}}>
+				<Card style={{margin:0}}>
 					<CardHeader
 						title="Matthew Beckwith"
 						subtitle="Doctor of Medicine"

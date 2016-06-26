@@ -2,24 +2,35 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import React from 'react';
 
-export default ({ textColor, paperBgColor, buttonBgColor }) => (
-  <Paper zDepth={2} style={{
-    margin: '20px 0',
-    padding: 20,
-    minHeight: 200,
+const heading = "If You Feel Sick You Should Not Wait!";
+const text = "We are passionate about caring for your health and providing exceptional urgent care";
+
+export default ({ buttonBgColor, paperBgColor, textColor }) => (
+  <Paper zDepth = { 2 } style = {{
     background: paperBgColor,
+    margin: '20px 0',
+    marginTop: 30,
+    minHeight: 200,
+    padding: 20,
     textAlign: 'center',
   }}>
+    <h4 style={{
+      margin: 0,
+      color: textColor
+    }}>{heading}</h4>
 
-    <h4 style={{margin:0, color:textColor}}>If You Feel Sick You Should Not Wait!</h4>
+    <RaisedButton
+      label = "Call Us Now"
+      href = "tel:1-703-687-4158"
+      secondary = { true }
+      linkButton = { true }
+      style = {{ margin:'20px 0', width:200 }}
+      backgroundColor = { buttonBgColor }
+    />
 
-    <RaisedButton label="Call Us Now"
-      href="tel:1-703-687-4158" 
-      primary={true} linkButton={true}
-      style={{margin:'20px 0', width:200}}
-      backgroundColor={buttonBgColor} />
-
-    <h5 style={{color:textColor}}>We are passionate about caring for your health and providing exceptional urgent care</h5>
-
+    <h5 style = {{
+      color: textColor,
+      lineHeight: 1.4,
+    }}>{text}</h5>
   </Paper>
 );

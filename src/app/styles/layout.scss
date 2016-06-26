@@ -1,127 +1,156 @@
-html, body {
-  // background: #303030;
-  margin: 0;
-  padding: 0;
-}
-.flex-container {
-  width: 100%;
-  margin: 0;
-  padding: 0px;
-  display: flex;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
-  flex-flow: row wrap;
-  // background: red;
-}
-.flex-container-half {
-  margin-top: 25px;
-  padding: 20px;
-  box-sizing: border-box;
-}
-.flex-item, .article-item, .flex-item-third {
-  padding: 20px 10px;
-  box-sizing: border-box;
-  // border: 1px dashed yellow;
-}
-.flex-telemed-video {
-  width: 50%;
-  /*padding: 5px;*/
-  box-sizing: border-box;
-  // border: 1px solid green;
+// Breakpoints 480, 600, 840, 960, 1280, 1440, 1600
+html, body,
+section, article,
+.bluebar-item,
+.custom-services-item,
+.home-articles-item,
+.flex-home-half,
+.flex-item-half,
+.services-item,
+.doctors-item,
+.articles-item,
+{
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	.flex-container {
+		display: flex;
+		flex-flow: row wrap;
+	}
 }
 
-section, article {
-  padding: 20px;
-  padding-bottom: 20px;
-  /*background: #ee0;*/
-}
+.appbar-title-full,
+.apptabs-7-icons,
+.apptabs-icons-labels,
+.conditions-two-columns,
+{ display: none }
 
-/* 1920 < xl */
-@media (min-width: 1920px) {
-  .flex-item {
-    width: 25%;
-  }
-  .flex-container-half {
-    width: 50%;
-  }
-  .article-item {
-    width: 25%;
-  }
-}
-/* 1280 < lg < 1920 */
-@media (min-width: 1280px) and (max-width: 1920px) {
-  .flex-item-third {
-    width: 33.3333%;
-  }
-  .flex-item {
-    width: 25%;
-  }
-  .flex-container-half {
-    width: 50%;
-  }
-  .article-item {
-    width: 50%;
-  }
-}
-/* 960 < md < 1280 */
-@media (min-width: 960px) and (max-width: 1280px) {
-  .flex-item {
-    width: 25%;
-  }
-  .flex-container-half {
-    width: 50%;
-  }
-  .article-item {
-    width: 50%;
-  }
-  .flex-item-third {
-    width: 33%;
-  }
-}
-/* 600 < sm < 960 */
-@media (min-width: 600px) and (max-width: 960px) {
-  .flex-item {
-    width: 50%;
-  }
-  .flex-container-half {
-    width: 100%;
-  }
-  .article-item {
-    width: 50%;
-  }
-  .flex-item-third {
-    width: 100%;
-  }
-}
-/* 600 < xl */
 @media (min-width: 600px) {
-  .conditions-lg-xs {
-    display: inline-table;
-  }
-  .conditions-xs {
-    display: none;
-  }
+	.appbar-title-short,
+	.apptabs-5-icons,
+	.conditions-one-column,
+	{ display: none }
+
+	.appbar-title-full,
+	.apptabs-7-icons,
+	{ display: block }
+
+	.conditions-two-columns,
+	{ display:table }
+
+	.bluebar-item,
+	{ width: 50% }
 }
-/* xs < 600 */
-@media (max-width: 600px) {
-  .flex-item {
-    width: 100%;
-  }
-  .flex-container-half {
-    width: 100%;
-  }
-  .article-item {
-    width: 100%;
-  }
-  .conditions-lg-xs {
-    display: none;
-  }
-  .conditions-xs {
-    display: inline;
-  }
-  .flex-telemed-video {
-    width: 100%;
-  }
+
+@media (min-width: 840px) {
+	.apptabs-7-icons
+	{ display: none }
+
+	.appbar-title-short,
+	.apptabs-icons-labels
+	{ display:block }
+}
+
+.bluebar-item {
+	@media (min-width: 600px) {
+		width: 50%;
+	}
+	@media (min-width: 1100px) {
+		width: 25%;
+	}
+}
+
+.custom-services-item {
+	padding: 10px;
+	@media (min-width: 600px) {
+		width: 50%;
+	}
+	@media (min-width: 840px) {
+		width: 25%;
+	}
+}
+
+.home-articles-item {
+	padding: 10px;
+	@media (min-width: 600px) {
+		// width: 50%;
+	}
+	@media (min-width: 720px) {
+		width: 50%;
+	}
+	@media (min-width: 960px) {
+		width: 100%;
+	}
+	@media (min-width: 1280px) {
+		width: 50%;
+	}
+}
+
+.flex-home-half {
+	padding: 10px;
+	@media (min-width: 960px) {
+		width: 50%;
+	}
+}
+
+.flex-item-half {
+	padding: 20px;
+	box-sizing: border-box;
+	@media (min-width: 1100px) {
+		width: 50%;
+	}
+}
+
+.services-item {
+	padding: 20px;
+	box-sizing: border-box;
+	@media (min-width: 600px) {
+		width: 50%;
+	}
+	@media (min-width: 960px) {
+		width: 25%;
+	}
+}
+
+.doctors-item {
+	box-sizing: border-box;
+	padding: 20px;
+	@media (min-width: 720px) {
+		width: 66.66%;
+		&:nth-child(odd) {
+			// background: red;
+		}
+		&:nth-child(even) {
+			// background: green;
+			margin-left: 33.33%;
+			right: 0;
+		}
+	}
+	@media (min-width: 960px) {
+		// background: blue !important;
+		margin-left: 0 !important;
+		width: 33.33%;
+	}
+}
+
+.articles-item {
+	box-sizing: border-box;
+	padding: 20px;
+	@media (min-width: 600px) {
+		width: 50%;
+	}
+	@media (min-width: 960px) {
+		width: 33.33%;
+	}
+	@media (min-width: 1280px) {
+		width: 25%;
+	}
+}
+
+.footer-theme-toggle {
+	display: none !important;
+	@media (min-width: 840px) {
+		display: block !important;
+	}
 }

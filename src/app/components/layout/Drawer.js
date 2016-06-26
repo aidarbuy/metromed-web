@@ -7,8 +7,11 @@ import FontIcon from 'material-ui/FontIcon';
 import IconButton from 'material-ui/IconButton';
 import MenuItem from 'material-ui/MenuItem';
 import React from 'react';
+import Subheader from 'material-ui/Subheader';
+import Toggle from 'material-ui/Toggle';
+import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar';
 
-export default ({ emailColor, iconColor, isDrawerOpen, menuItems, menuItemColor, phoneColor, setRoute, toggleDrawer }) => (
+export default ({ isDrawerOpen, setRoute, toggleDrawer, menuItems, menuItemColor, phoneColor, emailColor }) => (
 	<Drawer
 		docked = { false }
 		onRequestChange = { toggleDrawer }
@@ -56,13 +59,16 @@ export default ({ emailColor, iconColor, isDrawerOpen, menuItems, menuItemColor,
 			</CardMedia>
 		</Card>
 
+		<Subheader>Site navigation</Subheader>
+		<Divider/>
+
 		{menuItems.map((item, i) => (
 			<MenuItem key={i}
 				innerDivStyle = {{ paddingLeft:60 }}
-				leftIcon 	= { item.icon }
-				onTouchTap 	= { () => { setRoute(item.route) } }
-				primaryText = { item.name }
-				style = {{ color:menuItemColor }}
+				leftIcon 			= { item.icon }
+				onTouchTap 		= { () => { setRoute(item.route) } }
+				primaryText 	= { item.name }
+				style = {{ color: menuItemColor }}
 				value = { item.route }
 			/>
 		))}

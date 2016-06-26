@@ -14,26 +14,24 @@ class Doctors extends React.Component {
 	}
 
 	render() {
-		const { primary1Color } = this.context.muiTheme.palette;
-		const doctorsMap = dataDoctors.map((doctor, i) => (
-			<div key={doctor.id} className="flex-item-third">
-				<DoctorCard
-					doctor = { doctor }
-					color  = { primary1Color }
-					dispatchAction = { this.dispatchAction }
-				/>
-			</div>
-		));
-
+		const { primary1Color, primary3Color } = this.context.muiTheme.palette;
 
 		return (
 			<section>
 				<Helmet title="Doctors - Metromed UC"/>
 
-				<h3>Doctors</h3>
+				<h3 style={{color:primary3Color}}>Doctors</h3>
 
 				<div className="flex-container">
-					{doctorsMap}
+					{dataDoctors.map((doctor, i) => (
+						<div key={doctor.id} className="doctors-item">
+							<DoctorCard
+								color  = { primary1Color }
+								dispatchAction = { this.dispatchAction }
+								doctor = { doctor }
+							/>
+						</div>
+					))}
 				</div>
 			</section>
 		);

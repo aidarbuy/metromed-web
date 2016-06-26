@@ -13,8 +13,9 @@ const options = {
 };
 
 const scrHeight = window.screen.height;
-const height = scrHeight - (scrHeight / 3) - 170;
-      
+// const height = scrHeight - (scrHeight / 3) - 170;
+const height = 307;
+
 export default React.createClass({
   componentDidMount() {
     GoogleMapsLoader.load((google) => {

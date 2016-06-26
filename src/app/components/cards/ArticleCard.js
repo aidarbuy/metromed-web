@@ -10,8 +10,8 @@ export default React.createClass({
 		const { props } = this;
 
 		return (
-			<Card style={{minHeight:420}}>
-				<CardMedia overlay={
+			<Card style={{minHeight:400}}>
+				<CardMedia overlayContentStyle={{ bottom: -1 }} overlay={
 					<CardTitle
 						title 	 = { props.title }
 						subtitle = { props.subtitle }
@@ -36,7 +36,7 @@ export default React.createClass({
 						linkButton 		= { true }
 						primary 			= { false }
 						secondary 		= { true }
-						style 				= {{ margin: 12 }}
+						// style 				= {{ margin: 12 }}
 						tooltip 			= { "Read article" }
 					/>
 				</CardActions>

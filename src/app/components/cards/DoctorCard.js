@@ -1,4 +1,4 @@
-import {Card, CardActions, CardMedia, CardText, CardTitle} from 'material-ui/Card';
+import { Card, CardActions, CardMedia, CardText, CardTitle } from 'material-ui/Card';
 import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward';
 import { Link } from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -17,7 +17,7 @@ export default React.createClass({
 		const bgColor = colorRGB.r + ", " + colorRGB.g + ", " + colorRGB.b;
 
 		return (
-			<Card style={{boxSizing:'border-box', minHeight:490}}>
+			<Card style={{boxSizing:'border-box', minHeight:535}}>
 				<CardMedia overlay={<CardTitle title={"Dr. " + fullName}/>} overlayContentStyle={{
 					background: 'rgba(' + bgColor + ', 0.7)',
 					bottom: -1,

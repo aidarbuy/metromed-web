@@ -30,7 +30,13 @@ class Test extends React.Component {
 
 				<h3>Firebase</h3>
 
-				<h3>{this.state.seconds}</h3>
+				<div className="items-row">
+				  <div className="item img1"></div>
+				  <div className="item img2"></div>
+				  <div className="item img3"></div>
+				  <div className="item img4"></div>
+				  <div className="item img5"></div>
+				</div>
 			</section>
 		);
 	}

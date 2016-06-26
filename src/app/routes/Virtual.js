@@ -9,13 +9,13 @@ class Virtual extends React.Component {
   render() {
     const scrHeight = window.screen.height;
     const height = 0.98 * scrHeight - (scrHeight / 2);
-    const { primary2Color } = this.context.muiTheme.palette;
+    const { primary2Color, primary3Color } = this.context.muiTheme.palette;
 
     return (
       <section>
         <Helmet title="Virtual Tour - MetromedUC"/>
 
-        <h3 style={{marginBottom:0}}>Virtual Tour</h3>
+        <h3 style={{color:primary3Color,marginBottom:0}}>Virtual Tour</h3>
         <p style={{color:primary2Color, textAlign:'center'}}>Walk through our clinic in 360° virtual tour:</p>
 
         <iframe 

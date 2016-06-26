@@ -1,14 +1,13 @@
-import ArticlesCards from '../components/home/ArticlesCards';
+import Advertising from '../components/home/Advertising';
+import BlueBar from '../components/home/BlueBar';
 import CallToAction from '../components/home/CallToAction';
 import CustomServices from '../components/home/CustomServices';
 import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
 import Helmet from 'react-helmet';
-import LayerSlider from '../components/home/LayerSlider';
+import HomeArticles from '../components/home/HomeArticles';
 import RaisedButton from 'material-ui/RaisedButton';
 import React from 'react';
 import Testimonials from '../components/home/Testimonials';
-import TopBar from '../components/home/TopBar';
 
 class Main extends React.Component {
   constructor(props, context) {
@@ -24,7 +23,7 @@ class Main extends React.Component {
     const { store } = this.context;
     this.unsubscribe = store.subscribe(() => {
       const { toggled } = store.getState().appFooter;
-      if (toggled) TopBar.updateColors();
+      if (toggled) BlueBar.updateColors();
     });
   }
 
@@ -38,14 +37,17 @@ class Main extends React.Component {
 
   render() {
     const { 
-      accent1Color, alternateTextColor, canvasColor, clockCycleColor,
-      primary1Color, primary2Color,
+      accent1Color, accent2Color, alternateTextColor,
+      canvasColor, clockCycleColor,
+      primary1Color, primary2Color, primary3Color,
+      textColor,
     } = this.context.muiTheme.palette;
+
     const standardActions = (
       <RaisedButton
-        label="Ok"
-        secondary={true}
-        onTouchTap={this.handleRequestClose}
+        label      = "Ok"
+        secondary  = { true }
+        onTouchTap = { this.handleRequestClose }
       />
     );
 
@@ -55,39 +57,45 @@ class Main extends React.Component {
         />
 
         {/* Banner carousel with animated slides */}
-        <LayerSlider
+        <Advertising
         />
 
         {/* Block with contact info and working hours */}
-        <TopBar
+        <BlueBar
+          titleColor = { alternateTextColor }
+          textColor  = { alternateTextColor }
+          colonColor = { alternateTextColor }
+          bgColorA   = { primary1Color }
+          bgColorB   = { primary1Color }
+          bgColorC   = { primary1Color }
+          bgColorD   = { primary1Color }
         />
 
         {/* Call to action with call button */}
         <CallToAction
-          textColor     = {alternateTextColor}
-          paperBgColor  = {accent1Color}
-          buttonBgColor = {primary1Color}
+          textColor     = { alternateTextColor }
+          paperBgColor  = { primary2Color }
         />
 
         {/* Four cards with big icons */}
         <CustomServices
-          hoverColor = {accent1Color}
-          iconColor  = {primary1Color}
-          titleColor = {primary2Color}
+          hoverColor = { accent1Color }
+          iconColor  = { primary1Color }
+          titleColor = { primary2Color }
         />
 
         {/* Acticles and Testimonials blocks */}
         <div className='flex-container'>
-          <div className='flex-container-half'>
-            <ArticlesCards
-              accentColor = {accent1Color}
-              canvasColor = {canvasColor}
+          <div className='flex-home-half'>
+            <HomeArticles
+              accentColor = { accent1Color }
+              canvasColor = { canvasColor }
             />
           </div>
 
-          <div className='flex-container-half'>
+          <div className='flex-home-half'>
             <Testimonials
-              secondaryTextColor = {clockCycleColor}
+              secondaryTextColor = { clockCycleColor }
             />
           </div>
         </div>

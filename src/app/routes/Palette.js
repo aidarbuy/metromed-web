@@ -38,17 +38,15 @@ class MuiTheme extends React.Component {
         case "object":
           props = this.getPropsFrom(currentKey);
           const list = <List>{props}</List>;
-          // console.debug("key type is an object");
           return <KeyCard key={keyName} keyName={keyName} text={list} />;
           break;
 
         case "string":
-          // console.debug(currentKey);
           return <KeyCard key={keyName} keyName={keyName} text={currentKey} />;
           break;
 
         default:
-          // console.debug("key type is unknown");
+          // consol.debug("key type is unknown");
       }
     });
 
@@ -57,7 +55,6 @@ class MuiTheme extends React.Component {
   
   getPropsFrom(object) {
     var props = Object.keys(object).map((propName, i, arr) => {
-      // console.debug("arr:", arr);
       return (
         <div key={propName}>
           <ListItem disabled>

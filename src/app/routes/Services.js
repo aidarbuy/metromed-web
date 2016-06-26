@@ -1,7 +1,4 @@
-import Card from 'material-ui/Card';
-import CardMedia from 'material-ui/Card/CardMedia';
-import CardTitle from 'material-ui/Card/CardTitle';
-import CardText from 'material-ui/Card/CardText';
+import { Card, CardMedia,CardTitle,CardText } from 'material-ui/Card';
 import Divider from '../components/ui/ListItemDivider';
 import Helmet from 'react-helmet';
 import List from 'material-ui/List';
@@ -10,52 +7,53 @@ import React from 'react';
 import services from '../data/services';
 
 class Services extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+	constructor(props) {
+		super(props);
+	}
 
-  render() {
-    const { primary2Color, accent3Color, textColor } = this.context.muiTheme.palette;
-    return (
-      <section>
-        <Helmet title="Services - Metromed UC"/>
+	render() {
+		const { primary2Color, primary3Color, accent3Color, textColor } = this.context.muiTheme.palette;
 
-        <h3>Services</h3>
+		return (
+			<section>
+				<Helmet title="Services - Metromed UC"/>
 
-        <div className="flex-container">
-          {services.map((service, i) => (
-            <div key={i} className="flex-item">
-              <Card style={{textAlign:'center'}}>
-                <CardTitle style={{fontSize:34, color:primary2Color}}>
-                  <span>{service.title}</span>
-                </CardTitle>
+				<h3 style={{color:primary3Color}}>Services</h3>
 
-                <CardMedia style={{margin:0, padding:0, fontSize:25}}>
-                  <span style={{fontSize:77, color:primary2Color}}>${service.price}</span>
-                </CardMedia>
+				<div className="flex-container">
+					{services.map((service, i) => (
+						<div key={i} className="services-item">
+							<Card style={{textAlign:'center'}}>
+								<CardTitle style={{fontSize:34, color:primary2Color}}>
+									<span>{service.title}</span>
+								</CardTitle>
 
-                <CardText>
-                  <List>
-                    {service.list.map((li, i, arr) => (
-                      <ListItem key={i} disabled>
-                        <span style={{fontSize:18, color:textColor}}>{li}</span>
+								<CardMedia style={{margin:0, padding:0, fontSize:25}}>
+									<span style={{fontSize:77, color:primary2Color}}>${service.price}</span>
+								</CardMedia>
 
-                        <Divider style={{marginLeft:20, marginRight:20, transform:'translateY(16px)'}} index={i} length={arr.length}/>
-                      </ListItem>
-                    ))}
-                  </List>
-                </CardText>
-              </Card>
-            </div>
-          ))}
-        </div>
-      </section>
-    );
-  }
+								<CardText>
+									<List>
+										{service.list.map((li, i, arr) => (
+											<ListItem key={i} disabled>
+												<span style={{fontSize:18, color:textColor}}>{li}</span>
+
+												<Divider style={{marginLeft:20, marginRight:20, transform:'translateY(16px)'}} index={i} length={arr.length}/>
+											</ListItem>
+										))}
+									</List>
+								</CardText>
+							</Card>
+						</div>
+					))}
+				</div>
+			</section>
+		);
+	}
 }
 
 Services.contextTypes = {
-  muiTheme: React.PropTypes.object.isRequired,
+	muiTheme: React.PropTypes.object.isRequired,
 };
 
 export default Services;

@@ -5,35 +5,58 @@ import LeftIcon from 'material-ui/svg-icons/navigation/menu';
 import { Link } from 'react-router';
 import MenuItem from 'material-ui/MenuItem';
 import MenuIcon from 'material-ui/svg-icons/navigation/expand-more';
+import MoreVert from 'material-ui/svg-icons/navigation/more-vert';
 import React from 'react';
+import Toggle from 'material-ui/Toggle';
 
-export default ({ toggleDrawer }) => (
-	<AppBar
-		title = "Metromed Urgent Care" titleStyle={{textAlign:'center'}}
-		showMenuIconButton={true}
+export default ({ isAppbarFixed, isThemeDark, setTheme, toggleAppbarFixed, toggleDrawer, toggleTheme }) => (
+	<AppBar style = {{
+		position: isAppbarFixed ? 'fixed' : 'relative',
+	}}
+		title = {
+			<div>
+				<span className="appbar-title-full">Metromed Urgent Care</span>
+				<span className="appbar-title-short">Metromed UC</span>
+			</div>
+		}
+		titleStyle = {{ textAlign:'center' }}
+	
+		showMenuIconButton = { true }
 
-		iconElementLeft={
-			<IconButton onTouchTap={toggleDrawer}>
-				<LeftIcon />
-			</IconButton>
+		iconElementLeft = {
+			<IconButton onTouchTap={toggleDrawer}><LeftIcon /></IconButton>
 		}
 
-		iconElementRight={
+		iconElementRight = {
 			<IconMenu
-				iconButtonElement = { <IconButton><MenuIcon /></IconButton> }
-				targetOrigin ={{ horizontal:'right', vertical:'top' }}
-				anchorOrigin = {{horizontal:'right', vertical:'top' }}
+				iconButtonElement = { <IconButton><MoreVert /></IconButton> }
+				targetOrigin = {{ horizontal:'right', vertical:'top' }}
+				anchorOrigin = {{ horizontal:'right', vertical:'top' }}
 			>
 				<MenuItem 
 					primaryText = "Reload this page" 
-					onTouchTap = { ()=>{location.reload()} }
+					onTouchTap = { () => { location.reload() } }
 				/>
 
 				<MenuItem 
-					primaryText = "Telemed sevice"
+					primaryText = "Telemedicine"
 					containerElement = { <Link to="/telemed" /> }
+				/>
+
+				<MenuItem 
+					primaryText = { isThemeDark ? "Light interface" : "Dark interface" }
+					onTouchTap = { () => setTheme(!isThemeDark) }
+				/>
+
+				<MenuItem 
+					primaryText = { isAppbarFixed ? "Unstick app bar" : "Stick app bar" }
+					onTouchTap = { toggleAppbarFixed }
 				/>
 			</IconMenu>
 		}
+
+		iconStyleRight = {{
+			margin: 'auto',
+		}}
 	/>
 );

@@ -175,7 +175,6 @@ for (var i = 0; i <= 5; i++) {
 			plus.top = 495; 
 			break;
 	}
-	// console.debug(plus.top)
 	styles.slideB['pluses'].push(plus)
 }
 
