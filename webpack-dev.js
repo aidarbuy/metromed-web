@@ -11,11 +11,13 @@ const config = {
     'webpack/hot/only-dev-server',
     path.join(__dirname, '/src/app/app.js'),
   ],
+
   //Config options on how to interpret requires imports
   resolve: {
     extensions: ["", ".js"],
     //node_modules: ["web_modules", "node_modules"]  (Default Settings)
   },
+
   //Server Configuration options
   devServer:{
     contentBase: 'src/www', // Relative directory for base of server
@@ -26,12 +28,15 @@ const config = {
     host: '0.0.0.0', // Change to '0.0.0.0' for external facing server
     historyApiFallback: true,
   },
+
   devtool: 'eval',
+
   output: {
     path: buildPath,    //Path of output file
     filename: 'app.js',
     publicPath: '/',
   },
+
   plugins: [
     // Enables Hot Modules Replacement
     new webpack.HotModuleReplacementPlugin(),
@@ -42,6 +47,7 @@ const config = {
       {from: 'www'},
     ], path.resolve(__dirname, "src")),
   ],
+
   module: {
     loaders: [
       {
@@ -66,10 +72,12 @@ const config = {
       }
     ],
   },
+
   //eslint config options. Part of the eslint-loader package
   eslint: {
     configFile: '.eslintrc',
   },
+
   postcss: function() {
     return [precss, autoprefixer];
   }

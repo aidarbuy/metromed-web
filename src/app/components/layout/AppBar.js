@@ -9,7 +9,7 @@ import MoreVert from 'material-ui/svg-icons/navigation/more-vert';
 import React from 'react';
 import Toggle from 'material-ui/Toggle';
 
-export default ({ isAppbarFixed, isThemeDark, setTheme, toggleAppbarFixed, toggleDrawer, toggleTheme }) => (
+export default ({ isAppbarFixed, isThemeDark, language, setTheme, switchLanguage, toggleAppbarFixed, toggleDrawer, toggleTheme }) => (
 	<AppBar style = {{
 		position: isAppbarFixed ? 'fixed' : 'relative',
 	}}
@@ -51,6 +51,11 @@ export default ({ isAppbarFixed, isThemeDark, setTheme, toggleAppbarFixed, toggl
 				<MenuItem 
 					primaryText = { isAppbarFixed ? "Unstick app bar" : "Stick app bar" }
 					onTouchTap = { toggleAppbarFixed }
+				/>
+
+				<MenuItem 
+					primaryText = { language === 'english' ? "Switch to Spanish" : "Switch to English" }
+					onTouchTap = { switchLanguage }
 				/>
 			</IconMenu>
 		}

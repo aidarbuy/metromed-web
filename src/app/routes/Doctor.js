@@ -1,6 +1,6 @@
-import Button from 'material-ui/FlatButton';
+import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
+import FlatButton from 'material-ui/FlatButton';
 import doctors from '../data/doctors';
-import DoctorsIcon from 'material-ui/svg-icons/navigation/arrow-back';
 import Helmet from 'react-helmet';
 import { Link } from 'react-router';
 import React from 'react';
@@ -37,15 +37,15 @@ class Doctor extends React.Component {
 					title = {"Doctor " + doctor.firstname + " " + doctor.lastname}
 				/>
 
-				<div style={{textAlign:'left'}}>
-					<Button className="button-top-left"
-						label="All Doctors" 
-						labelPosition="after"
-						primary={true}
-						icon={<DoctorsIcon />}
-						linkButton={true}
-						containerElement={<Link to="/doctors" />}
-						onTouchTap={this.handleTouchTap}
+				<div style={{ textAlign: 'left' }}>
+					<FlatButton
+						containerElement = { <Link to="/doctors" /> }
+						icon 						 = { <ArrowBack/> }
+						label 					 = { "All Doctors" }
+						labelPosition 	 = { "after" }
+						linkButton 			 = { true }
+						onTouchTap 			 = { this.handleTouchTap }
+						secondary 			 = { true }
 					/>
 				</div>
 

@@ -1,104 +1,86 @@
-import articles from '../data/articles';
+import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
+// import articles from '../data/articles';
 // import ArticleToolbar from '../components/ui/ArticleToolbar';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+// import { database, storage } from '../data/firebase';
 import FlatButton from 'material-ui/FlatButton';
 import Helmet from 'react-helmet';
+import { Link } from 'react-router';
 import React from 'react';
 
-class Article extends React.Component {
-	constructor(props) {
-		super(props);
-		const { id } = this.props.params;
-		const article = this.getArticle(id);
-		this.state = {
-			prevArticle: article.prevArticle,
-			currArticle: article.currArticle,
-			nextArticle: article.nextArticle,
-			prevButtonDisabled: article.prevButtonDisabled,
-			nextButtonDisabled: article.nextButtonDisabled,
-			articleIndex: article.articleIndex,
-			articlesTotal: article.articlesTotal,
-		};
-	}
+export default () => (
+	<h3>Article</h3>
+);
 
-	getArticle(id) {
-		for (var i = 0; i <= articles.length - 1; i++) {
-			if (articles[i].img.src === id) {
-				if (i === 0) 
-					return {
-						prevArticle: articles[i + 1],
-						currArticle: articles[i],
-						nextArticle: articles[i],
-						prevButtonDisabled: false,
-						nextButtonDisabled: true,
-						articleIndex: articles.length - i,
-					};
+// class Article extends React.Component {
+// 	constructor(props) {
+// 		super(props);
+// 		const { id } = this.props.params;
+// 	}
 
-				if (i === articles.length - 1)
-					return {
-						prevArticle: articles[i],
-						currArticle: articles[i],
-						nextArticle: articles[i - 1],
-						prevButtonDisabled: true,
-						nextButtonDisabled: false,
-						articleIndex: articles.length - i,
-					};
+// 	componentWillMount() {
+// 		storage.ref('/images').once('value').then((snap) => {
+// 			const articles = snap.val();
+// 			// console.debug(articles.length); // 13
+// 			const articlesSliced = articles.slice(articles.length - 4);
+// 			this.setState({ dataArticles: articlesSliced.reverse() });
+// 		})
+// 		.catch((err) => console.debug('error:', err));
+// 	}
 
-				return {
-					prevArticle: articles[i + 1],
-					currArticle: articles[i],
-					nextArticle: articles[i - 1],
-					prevButtonDisabled: false,
-					nextButtonDisabled: false,
-					articleIndex: articles.length - i,
-				};
-			}
-		}
-	}
+// 	render() {
+// 		const {
+// 			canvasColor, accent2Color, textColor, borderColor,
+// 		} = this.context.muiTheme.palette;
 
-	render() {
-		const article = this.state.currArticle;
-		const prevArticle = this.state.prevArticle.img.src;
-		const nextArticle = this.state.nextArticle.img.src;
-		const { articleIndex, prevButtonDisabled, nextButtonDisabled } = this.state;
-		const articlesTotal = articles.length;
-		const label = articleIndex + "/" + articlesTotal;
-		const { canvasColor, accent2Color, textColor, borderColor } = this.context.muiTheme.palette;
-		const articleText = article.text.map((p, i) => {
-			if (i === 0) return <p key={i} className="article-first-paragraph" dangerouslySetInnerHTML={{__html:p}} />;
-			return <p key={i} dangerouslySetInnerHTML={{__html:p}} />;
-		});
+// 		return (
+// 			<section>
+// 				<Helmet title={"Article Title - MetromedUC"} />
 
-		return (
-			<article>
-				<Helmet title={article.title + " - MetromedUC"} />
+// 				<div style={{ textAlign: 'left' }}>
+// 					<FlatButton
+// 						containerElement = { <Link to="/articles" /> }
+// 						icon 						 = { <ArrowBack /> }
+// 						label 					 = { "All Articles" }
+// 						labelPosition 	 = { "after" }
+// 						linkButton 			 = { true }
+// 						secondary 			 = { true }
+// 					/>
+// 				</div>
 
-				<Card style={{margin:0}}>
-					<CardHeader
-						title="Matthew Beckwith"
-						subtitle="Doctor of Medicine"
-						avatar={require('../images/articles/matthew-100x100.jpg')}
-					/>
+// 				<article>
+// 					<Card style={{margin:0}}>
+// 						<CardHeader
+// 							title="Matthew Beckwith"
+// 							subtitle="Doctor of Medicine"
+// 							avatar={require('../images/articles/matthew-100x100.jpg')}
+// 						/>
 
-					<CardMedia overlay={
-						<CardTitle 
-							title 	   = { article.title } 
-							subtitle   = { article.date } 
-							titleStyle = {{ color: accent2Color }}
-						/>
-					}>
-						<img src = {require('../images/articles/' + article.img.src + '-600x300.jpg')}/>
-					</CardMedia>
+// 						<CardMedia overlay={
+// 							<CardTitle 
+// 								title 	   = { "Article Title" } 
+// 								subtitle   = { "Article Subtitle" } 
+// 								titleStyle = {{ color: accent2Color }}
+// 							/>
+// 						}>
+// 							{/*
+// 							<img src = { require(storage.ref('images/' + article.img.src + '-600x300.jpg')) }/>
+// 							*/}
+// 						</CardMedia>
 
-					<CardText style={{fontSize: 16, padding: '5%',}}>{articleText}</CardText>
-				</Card>
-			</article>
-		)
-	}
-}
+// 						<CardText style={{fontSize: 16, padding: '5%',}}>
+// 							{ "Article Text" }
+// 						</CardText>
+// 					</Card>
+// 				</article>
+// 			</section>
+// 		)
+// 	}
+// }
 
-Article.contextTypes = {
-	muiTheme: React.PropTypes.object,
-};
+// Article.contextTypes = {
+// 	muiTheme: React.PropTypes.object,
+// 	store: React.PropTypes.object,
+// };
 
-export default Article;
+// export default Article;

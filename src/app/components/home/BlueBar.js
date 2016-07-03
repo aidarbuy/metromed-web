@@ -3,7 +3,7 @@ import Divider from 'material-ui/Divider';
 import FlatButton from 'material-ui/FlatButton';
 import React from 'react';
 import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table';
-require('../../styles/address-bar.scss');
+require('../../styles/bluebar.scss');
 
 const styles = {
 	CardTitle : {
@@ -21,9 +21,9 @@ const styles = {
 };
 
 const hours = [
-	[	"Sunday", "closed" ],
-	[	"Mon &ndash; Fri", "10 am - 8 pm" ],
-	[	"Saturday", "closed" ],
+	["Sunday", "closed"],
+	["Monday &ndash; Friday", "10 am - 8 pm"],
+	["Saturday", "closed"],
 ];
 
 const getLinkStyles = (linkColor) => {

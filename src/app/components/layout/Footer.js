@@ -75,7 +75,6 @@ export default ({
 		<ToolbarGroup>
 			<Toggle
 				className = "footer-theme-toggle"
-				label 		= "Night mode"
 				onToggle 	= {(e, toggled) => { setTheme(toggled) }}
 				style 		= {{ margin:'auto' }}
 				toggled 	= { isThemeDark }

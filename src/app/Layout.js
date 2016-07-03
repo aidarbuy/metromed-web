@@ -4,10 +4,10 @@ import { darkBaseTheme, lightBaseTheme } from './data/colors';
 import Drawer from'./components/layout/Drawer';
 import { fade } from 'material-ui/utils/colorManipulator';
 import Footer from './components/layout/Footer';
-import { getInitIndex } from './tools/navigation';
+import { getInitIndex } from './utils/navigation';
 import { getMenuItems } from './data/menu-items';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { getShadowHexColor } from './tools/colors';
+import { getShadowHexColor } from './utils/colors';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import React from 'react';
 require('./styles/layout.scss');
@@ -16,13 +16,14 @@ require('./styles/typography.scss');
 class Layout extends React.Component {
 	constructor(props) {
 		super(props);
-		this.handleActive = this.handleActive.bind(this);
-		this.pushToRouter = this.pushToRouter.bind(this);
+		this.handleActive 	   = this.handleActive.bind(this);
+		this.pushToRouter 	   = this.pushToRouter.bind(this);
 		this.toggleAppbarFixed = this.toggleAppbarFixed.bind(this);
-		this.setRoute = this.setRoute.bind(this);
-		this.setMainState = this.setMainState.bind(this);
-		this.setTheme = this.setTheme.bind(this);
-		this.toggleDrawer = this.toggleDrawer.bind(this);
+		this.setRoute 		   = this.setRoute.bind(this);
+		this.setMainState 	   = this.setMainState.bind(this);
+		this.setTheme 		   = this.setTheme.bind(this);
+		this.switchLanguage    = this.switchLanguage.bind(this);
+		this.toggleDrawer 	   = this.toggleDrawer.bind(this);
 	}
 
 	componentWillMount() {
@@ -37,6 +38,7 @@ class Layout extends React.Component {
 			footerMenuValue: 3,
 			initialSelectedIndex: initIndex,
 			isDrawerOpen: false,
+			language: 'english',
 			isThemeDark: isThemeDarkBoolean,
 			route: pathname,
 			tabIndex: initIndex,
@@ -45,8 +47,9 @@ class Layout extends React.Component {
 	}
 
 	getChildContext() {
-		// state or propNames changed, update context of childs
-		return { muiTheme: this.state.muiTheme };
+		return {
+			muiTheme: this.state.muiTheme,
+		};
 	}
 
 	handleActive(tab) {
@@ -76,6 +79,14 @@ class Layout extends React.Component {
 		localStorage.setItem('isThemeDark', themeArr[1]);
 	}
 
+	switchLanguage() {
+		console.debug('switchLanguage()');
+		switch (this.state.language) {
+			case 'english': this.setState({language:'spanish'}); break;
+			case 'spanish': this.setState({language:'english'}); break;
+		}
+	}
+
 	toggleAppbarFixed() {
 		this.setState({ isAppbarFixed: !this.state.isAppbarFixed });
 		localStorage.setItem('isAppbarFixed', this.state.isAppbarFixed);
@@ -87,11 +98,12 @@ class Layout extends React.Component {
 
 	render() {
 		const {
+			initialSelectedIndex,
+			footerMenuValue,
 			isAppbarFixed,
 			isDrawerOpen,
-			initialSelectedIndex,
 			isThemeDark,
-			footerMenuValue,
+			language,
 			muiTheme,
 			route
 		} = this.state;
@@ -108,12 +120,14 @@ class Layout extends React.Component {
 				<div className = "layout">
 					{/* Main Toolbar, can open AppLeftNav */}
 					<AppBar
-						isAppbarFixed  = { isAppbarFixed }
-						isThemeDark 	 = { isThemeDark }
-						setTheme 			 = { this.setTheme }
+						isAppbarFixed  	  = { isAppbarFixed }
+						isThemeDark 	  = { isThemeDark }
+						language 		  = { language }
+						setTheme 		  = { this.setTheme }
+						switchLanguage 	  = { this.switchLanguage }
 						toggleAppbarFixed = { this.toggleAppbarFixed }
-						toggleDrawer   = { this.toggleDrawer }
-						toggleTheme    = { this.toggleTheme }
+						toggleDrawer   	  = { this.toggleDrawer }
+						toggleTheme    	  = { this.toggleTheme }
 					/>
 
 					{/* Main tabs navigation */}
@@ -130,7 +144,7 @@ class Layout extends React.Component {
 
 					{/* Left navigation drawer, opens on click */}
 					<Drawer
-						emailColor 	  = { alternateTextColor }
+						emailColor 	  = { isThemeDark ? textColor : alternateTextColor }
 						isDrawerOpen  = { this.state.isDrawerOpen }
 						menuItems 	  = { getMenuItems(primary2Color) }
 						menuItemColor = { primary2Color }

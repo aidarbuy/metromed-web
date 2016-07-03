@@ -1,45 +1,35 @@
-// import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-// import Chart from 'chart.js';
-// import FlatButton from 'material-ui/FlatButton';
+import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
 import Helmet from 'react-helmet';
-import React from 'react';
+import { FormattedNumber, FormattedPlural } from 'react-intl';
+import { default as React, Component, PropTypes } from 'react';
 
-class Test extends React.Component {
+class TestLab extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			seconds: 0,
+			name: 'Aidar',
+			unreadCount: 1000,
 		};
 	}
 
-	componentWillMount() {
-		// var ref = new Firebase("https://metromeduc.firebaseio.com/test");
-		// this.bindAsArray(ref, "test");
-	}
-
-	componentDidMount() {
-		setInterval(() => {
-			this.setState({counter: this.state.seconds++});
-		}, 1000);
-	}
-
 	render() {
+		const { name, unreadCount } = this.state;
+
 		return (
 			<section>
 				<Helmet title="Metromed Test Lab" />
 
-				<h3>Firebase</h3>
+				<h3>Test Lab</h3>
 
-				<div className="items-row">
-				  <div className="item img1"></div>
-				  <div className="item img2"></div>
-				  <div className="item img3"></div>
-				  <div className="item img4"></div>
-				  <div className="item img5"></div>
-				</div>
+				<p style={{color:'red'}}>
+					<FormattedNumber value={unreadCount} />
+					{' '}
+					<FormattedPlural value={unreadCount} one="message" other="messages" />.
+				</p>
 			</section>
 		);
 	}
 }
 
-export default Test;
+export default TestLab;

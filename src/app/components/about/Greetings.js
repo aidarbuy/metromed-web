@@ -34,7 +34,7 @@ const conditions = [
 
 const conditionsPaired = pairArray(conditions);
 
-export default ({ accentColor, imgSubtitleColor, primaryColor, textColor }) => (
+export default ({ accentColor, imgSubtitleColor, language, primaryColor, textColor }) => (
 	<Card>
 		<CardTitle
 			title={
@@ -58,7 +58,10 @@ export default ({ accentColor, imgSubtitleColor, primaryColor, textColor }) => (
 		</CardMedia>
 
 		<CardText style={{ textAlign:'left' }}>
-			<h5>At Metromed Urgent Care we treat patients of all ages, with a variety of conditions:</h5>
+			<h5>{language === 'english' ?
+				'At Metromed Urgent Care we treat patients of all ages, with a variety of conditions:' :
+				'En nuestra clínica, MetroMed Urgencias atendemos todas sus urgencias:'
+			}</h5>
 
 			<Table className="conditions-two-columns" selectable={false}>
 				<TableBody displayRowCheckbox={false} stripedRows={true} selectable={false}>

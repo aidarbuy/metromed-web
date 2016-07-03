@@ -6,6 +6,7 @@ import Balance   from './routes/Balance';
 import Context   from './routes/Context';
 import Doctor    from './routes/Doctor';
 import Doctors   from './routes/Doctors';
+import ES6       from './routes/ES6';
 import Gallery   from './routes/Gallery';
 import Home      from './routes/Home';
 import Layout    from './Layout';
@@ -43,6 +44,7 @@ module.exports = (
     <Route path="/context"      component={Context}   />
     <Route path="/doctors"      component={Doctors}   />
     <Route path="/doctors/:id"  component={Doctor}    />
+    <Route path="/es6"          component={ES6}       />
     <Route path="/gallery"      component={Gallery}   />
     <Route path="/location"     component={Location}  />
     <Route path="/mui-theme"    component={MuiTheme}  />

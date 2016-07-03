@@ -20,6 +20,11 @@ class Main extends React.Component {
   }
 
   componentDidMount() {
+    jQuery("#layerslider").layerSlider({
+      showCircleTimer: false,
+      showBarTimer: false,
+      skin: 'noskin'
+    });
     const { store } = this.context;
     this.unsubscribe = store.subscribe(() => {
       const { toggled } = store.getState().appFooter;
