@@ -55,7 +55,7 @@ export default ({ isDrawerOpen, setRoute, toggleDrawer, menuItems, menuItemColor
 					}
 				/>
 			}>
-				<img src={require('../../images/gallery/three-medics-thumb.jpg')} />
+				<img src={require('../../images/team/three-medics-thumb.jpg')} />
 			</CardMedia>
 		</Card>
 

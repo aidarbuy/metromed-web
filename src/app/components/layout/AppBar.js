@@ -55,6 +55,11 @@ export default ({ isAppbarFixed, isThemeDark, language, setTheme, switchLanguage
 
 				{/*
 				<MenuItem 
+					primaryText = "Photo gallery"
+					containerElement = { <Link to="/gallery" /> }
+				/>
+
+				<MenuItem 
 					primaryText = { language === 'english' ? "Switch to Spanish" : "Switch to English" }
 					onTouchTap = { switchLanguage }
 				/>

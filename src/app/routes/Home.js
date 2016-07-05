@@ -58,12 +58,26 @@ class Main extends React.Component {
 
 		return (
 			<div>
-				<Helmet title="Metromed Urgent Care"
-				/>
+				<Helmet title="Metromed Urgent Care" />
+
+				{/* Acticles and Testimonials blocks */}
+				<div className='flex-container'>
+					<div className='flex-home-half'>
+						<LatestArticles
+							accentColor = { accent1Color }
+							canvasColor = { canvasColor }
+						/>
+					</div>
+
+					<div className='flex-home-half'>
+						<Testimonials
+							secondaryTextColor = { clockCycleColor }
+						/>
+					</div>
+				</div>
 
 				{/* Banner carousel with animated slides */}
-				<Advertising
-				/>
+				<Advertising />
 
 				{/* Block with contact info and working hours */}
 				<BlueBar
@@ -88,22 +102,6 @@ class Main extends React.Component {
 					iconColor  = { primary1Color }
 					titleColor = { primary2Color }
 				/>
-
-				{/* Acticles and Testimonials blocks */}
-				<div className='flex-container'>
-					<div className='flex-home-half'>
-						<LatestArticles
-							accentColor = { accent1Color }
-							canvasColor = { canvasColor }
-						/>
-					</div>
-
-					<div className='flex-home-half'>
-						<Testimonials
-							secondaryTextColor = { clockCycleColor }
-						/>
-					</div>
-				</div>
 			</div>
 		);
 	}

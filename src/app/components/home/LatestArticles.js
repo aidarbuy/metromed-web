@@ -15,19 +15,25 @@ class HomeArticles extends React.Component {
 	}
 
 	componentWillMount() {
-		database.ref('/articles').limitToFirst(4).once('value').then((snapshot) => {
-			const articles = snapshot.val().reverse();
-			const content = articles.map((article, index) => (
-				<div className="articles-item" key={article.title}>
-					<ArticleCard
-						title    = { article.title }
-						subtitle = { article.date }
-						image 	 = { article.img.src }
-						teaser   = { article.teaser }
-					/>
-				</div>
-			));
-			this.setState({content});
+		const articlesRef = database.ref('/articles').orderByKey().limitToLast(4);
+		articlesRef.once('value').then((dataSnapshot) => {
+			const articles = dataSnapshot.val();
+			var content = [];
+			Object.keys(articles).map((item, i) => {
+				const article = articles[item];
+				const articleCard = (
+					<div className="home-articles-item" key={article.title}>
+						<ArticleCard
+							title    = { article.title }
+							subtitle = { article.date }
+							image 	 = { article.img.src }
+							teaser   = { article.teaser }
+						/>
+					</div>
+				);
+				content.push(articleCard);
+			});
+			this.setState({content: content.reverse()});
 		});
 	}
 
