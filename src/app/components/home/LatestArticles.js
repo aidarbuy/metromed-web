@@ -31,6 +31,7 @@ class HomeArticles extends React.Component {
 						/>
 					</div>
 				);
+
 				content.push(articleCard);
 			});
 			this.setState({content: content.reverse()});
