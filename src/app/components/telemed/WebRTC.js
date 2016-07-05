@@ -6,13 +6,26 @@
  *  tree.
  */
 
+import Card from 'material-ui/Card';
+import CardActions from 'material-ui/Card/CardActions';
+import CardMedia from 'material-ui/Card/CardMedia';
+import io from 'socket.io-client';
+import RaisedButton from 'material-ui/RaisedButton';
+import React, { Component } from 'react';
+import { cyan700 } from 'material-ui/styles/colors';
+
 // require('https://webrtc.github.io/adapter/adapter-latest.js');
 
-import io from 'socket.io-client';
-var socket0 = io('https://metromed-io.herokuapp.com/');
-var socket2 = io('https://metromed-io2.herokuapp.com/');
-var socket = (typeof socket0 === "Socket") ? socket2 : socket0;
-var localVideo, remoteVideo, startTime, localStream, pc, pc1, pc2;
+var localVideo, remoteVideo, startTime, localStream, pc, pc1, pc2, socket;
+
+const styles = {
+	video : {
+		width: '50%',
+		border: '1px solid ' + cyan700,
+		boxSizing: 'border-box',
+	},
+};
+
 var servers = { iceServers: [{ urls: [
 	'stun:stun.l.google.com:19305',
 	'stun:stun1.l.google.com:19305',
@@ -22,76 +35,14 @@ var servers = { iceServers: [{ urls: [
 	'stun:stun.services.mozilla.com',
 ]}]};
 
-function getName(pc) {
-	return (pc === pc1) ? 'pc1' : 'pc2';
-}
+const socketInit = () => socket = io('https://metromed-io2.herokuapp.com/');
+const getName = pc => pc === pc1 ? 'pc1' : 'pc2';
+const getOtherPc = pc => pc === pc1 ? pc2 : pc1;
 
-function getOtherPc(pc) {
-	return (pc === pc1) ? pc2 : pc1;
-}
-
-function gotStream(stream) {
-	trace('Received local stream');
-	localVideo.srcObject = stream;
-	localStream = stream;
-	this.setState({callButtonDisabled: false});
-}
-
-function start() {
-	trace('Requesting local stream');
-	this.setState({startButtonDisabled: true});
-	navigator.mediaDevices.getUserMedia({
-		audio: true,
-		video: { width: 1280 }
-	})
-	.then(gotStream.bind(this))
-	.catch(function(e) {
-		alert('getUserMedia() error: ' + e.name);
-	});
-}
-
-function call() {
-	this.setState({
-		callButtonDisabled: true,
-		hangupButtonDisabled: false,
-	});
-	trace('Starting call');
-	startTime = window.performance.now();
-	var videoTracks = localStream.getVideoTracks();
-	var audioTracks = localStream.getAudioTracks();
-	if (videoTracks.length > 0) {
-		trace('Using video device: ' + videoTracks[0].label);
-	}
-	if (audioTracks.length > 0) {
-		trace('Using audio device: ' + audioTracks[0].label);
-	}
-	pc1 = new RTCPeerConnection(servers);
-	trace('Created local peer connection object pc1');
-	pc1.onicecandidate = function(e) {
-		onIceCandidate(pc1, e);
-	};
-	pc1.oniceconnectionstatechange = function(e) {
-		onIceStateChange(pc1, e);
-	};
-
-	pc1.addStream(localStream);
-	trace('Added local stream to pc1');
-
-	trace('pc1 createOffer start');
-	pc1.createOffer({
-		offerToReceiveAudio: 1,
-		offerToReceiveVideo: 1
-	}).then(
-		onCreateOfferSuccess,
-		onCreateSessionDescriptionError
-	);
-}
-
-function onCreateSessionDescriptionError(error) {
+const onCreateSessionDescriptionError = error =>
 	trace('Failed to create session description: ' + error.toString());
-}
 
-function onCreateOfferSuccess(desc) {
+const onCreateOfferSuccess = desc => {
 	trace('Offer from pc1\n' + desc.sdp);
 	trace('pc1 setLocalDescription start');
 	pc1.setLocalDescription(desc).then(
@@ -103,19 +54,16 @@ function onCreateOfferSuccess(desc) {
 	);
 }
 
-function onSetLocalSuccess(pc) {
+const onSetLocalSuccess = pc =>
 	trace(getName(pc) + ' setLocalDescription complete');
-}
 
-function onSetRemoteSuccess(pc) {
+const onSetRemoteSuccess = pc =>
 	trace(getName(pc) + ' setRemoteDescription complete');
-}
 
-function onSetSessionDescriptionError(error) {
+const onSetSessionDescriptionError = error =>
 	trace('Failed to set session description: ' + error.toString());
-}
 
-function gotRemoteStream(e) {
+const gotRemoteStream = e => {
 	remoteVideo.srcObject = e.stream;
 	trace('pc2 received remote stream');
 	this.setState({
@@ -124,7 +72,7 @@ function gotRemoteStream(e) {
 	});
 }
 
-function onCreateAnswerSuccess(desc) {
+const onCreateAnswerSuccess = desc => {
 	trace('Answer from pc2:\n' + desc.sdp);
 	trace('pc2 setLocalDescription start');
 	pc2.setLocalDescription(desc).then(
@@ -136,7 +84,7 @@ function onCreateAnswerSuccess(desc) {
 	);
 }
 
-function onIceCandidate(pc, event) {
+const onIceCandidate = (pc, event) => {
 	if (event.candidate) {
 		socket.emit('ice', {
 			pc: getName(pc),
@@ -146,88 +94,41 @@ function onIceCandidate(pc, event) {
 	}
 }
 
-socket.on('ice', (data) => {
-	pc = pc1 ? pc1 : pc2;
-	pc.addIceCandidate(
-		new RTCIceCandidate(data.candidate)
-	).then(
-		function() {
-			onAddIceCandidateSuccess(data.pc);
-		},
-		function(err) {
-			onAddIceCandidateError(data.pc, err);
-		}
-	);
-});
-
-function onAddIceCandidateSuccess(pc) {
+const onAddIceCandidateSuccess = pc =>
 	trace(getName(pc) + ' addIceCandidate success');
-}
 
-function onAddIceCandidateError(pc, error) {
+const onAddIceCandidateError = (pc, error) =>
 	trace(getName(pc) + ' failed to add ICE Candidate: ' + error.toString());
-}
 
-function onIceStateChange(pc, event) {
+const onIceStateChange = (pc, event) => {
 	if (pc) {
 		trace(getName(pc) + ' ICE state: ' + pc.iceConnectionState);
 		console.log('ICE state change event: ', event);
 	}
 }
 
-function hangup() {
-	trace('Ending call');
-	pc = pc1 ? pc1 : pc2;
-	pc.close();
-	pc = null;
-	this.setState({
-		hangupButtonDisabled: true,
-		callButtonDisabled: false,
-	});
-}
-
-import React from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
-import Card from 'material-ui/Card';
-import CardActions from 'material-ui/Card/CardActions';
-const buttons = [{
-	ref: 'startButton',
-	label: "Start",
-	primary: true,
-	stateName: 'startButtonDisabled',
-	functionName: start,
-},{
-	ref: 'callButton',
-	label: "Call",
-	primary: true,
-	stateName: 'callButtonDisabled',
-	functionName: call,
-},{
-	ref: 'hangupButton',
-	label: "Hang Up",
-	secondary: true,
-	stateName: 'hangupButtonDisabled',
-	functionName: hangup,
-},{
-	ref: 'stopButton',
-	label: "Stop",
-	secondary: true,
-	stateName: 'stopButtonDisabled',
-	functionName: stop,
-}];
-import CardMedia from 'material-ui/Card/CardMedia';
 const LOCAL_POSTER = require('../../images/telemed/local-video.jpg');
 const REMOTE_POSTER = require('../../images/telemed/connecting.jpg');
 const BROWSER_MESSAGE = "Your browser does not support video tags";
-export default class WebRTC extends React.Component {
+
+class WebRTC extends Component {
 	constructor(props, context) {
 		super(props, context);
+		this.gotStream = this.gotStream.bind(this);
+		this.start 	   = this.start.bind(this);
+		this.call 	   = this.call.bind(this);
+		this.hangup    = this.hangup.bind(this);
 		this.state = {
 			callButtonDisabled: true,
 			hangupButtonDisabled: true,
 			stopButtonDisabled: true,
 		};
 	}
+
+	componentWillMount() {
+		socketInit();
+	}
+
 	componentDidMount() {
 		localVideo = this.refs.localVideo;
 		remoteVideo = this.refs.remoteVideo;
@@ -236,8 +137,7 @@ export default class WebRTC extends React.Component {
 			trace('Created remote peer connection object pc2');
 			pc2.addStream(localStream);
 			trace('pc2 setRemoteDescription start');
-			pc2.setRemoteDescription(desc).then(
-				function() {
+			pc2.setRemoteDescription(desc).then(() => {
 					onSetRemoteSuccess(pc2);
 				},
 				onSetSessionDescriptionError
@@ -256,7 +156,7 @@ export default class WebRTC extends React.Component {
 				onCreateAnswerSuccess,
 				onCreateSessionDescriptionError
 			);
-			pc2.onaddstream = gotRemoteStream.bind(this);
+			pc2.onaddstream = gotRemoteStream;
 		});
 		socket.on('answer', (desc) => {
 			trace('pc1 setRemoteDescription start');
@@ -268,25 +168,138 @@ export default class WebRTC extends React.Component {
 			);
 			pc1.onaddstream = gotRemoteStream.bind(this);
 		});
+		socket.on('ice', (data) => {
+			pc = pc1 ? pc1 : pc2;
+			pc.addIceCandidate(
+				new RTCIceCandidate(data.candidate)
+			).then(
+				function() {
+					onAddIceCandidateSuccess(data.pc);
+				},
+				function(err) {
+					onAddIceCandidateError(data.pc, err);
+				}
+			);
+		});
 	}
+
+	gotStream(stream) {
+		trace('Received local stream');
+		localVideo.srcObject = stream;
+		localStream = stream;
+		this.setState({callButtonDisabled: false});
+	}
+
+
+	start() {
+		trace('Requesting local stream');
+		this.setState({ startButtonDisabled:true });
+		var self = this;
+		navigator.mediaDevices.getUserMedia({
+			audio: true,
+			video: { width:1280 }
+		})
+		.then(this.gotStream)
+		.catch(function(e) {
+			alert('getUserMedia() error: ' + e.name);
+		});
+	}
+
+	call() {
+		this.setState({
+			callButtonDisabled: true,
+			hangupButtonDisabled: false,
+		});
+		trace('Starting call');
+		startTime = window.performance.now();
+		var videoTracks = localStream.getVideoTracks();
+		var audioTracks = localStream.getAudioTracks();
+		if (videoTracks.length > 0) {
+			trace('Using video device: ' + videoTracks[0].label);
+		}
+		if (audioTracks.length > 0) {
+			trace('Using audio device: ' + audioTracks[0].label);
+		}
+		pc1 = new RTCPeerConnection(servers);
+		trace('Created local peer connection object pc1');
+		pc1.onicecandidate = function(e) {
+			onIceCandidate(pc1, e);
+		};
+		pc1.oniceconnectionstatechange = function(e) {
+			onIceStateChange(pc1, e);
+		};
+
+		pc1.addStream(localStream);
+		trace('Added local stream to pc1');
+
+		trace('pc1 createOffer start');
+		pc1.createOffer({
+			offerToReceiveAudio: 1,
+			offerToReceiveVideo: 1
+		}).then(
+			onCreateOfferSuccess,
+			onCreateSessionDescriptionError
+		);
+	}
+
+	hangup() {
+		trace('Ending call');
+		pc = pc1 ? pc1 : pc2;
+		pc.close();
+		pc = null;
+		this.setState({
+			hangupButtonDisabled: true,
+			callButtonDisabled: false,
+		});
+	}
+
 	render() {
-		const buttonsSliced = buttons.slice(0, 3);
-		const buttonsMapped = buttonsSliced.map((button, i) => (
-			<RaisedButton key={i} ref={button.ref} label={button.label}
-				primary={button.primary} secondary={button.secondary}
-				disabled={this.state[button.stateName]}
-				onTouchTap={button.functionName.bind(this)}
-			/>
-		));
 		return (
 			<Card>
-				<CardActions style={{textAlign:'center'}}>
-					{buttonsMapped}
+				<CardActions style={{ textAlign:'center' }}>
+					<RaisedButton
+						ref 	   = { 'startButton' }
+						label 	   = { "Start" }
+						primary    = { true }
+						disabled   = { this.state.startButtonDisabled }
+						onTouchTap = { this.start }
+					/>
+					<RaisedButton
+						ref 	   = { 'callButton' }
+						label 	   = { "Call" }
+						primary    = { true }
+						disabled   = { this.state.callButtonDisabled }
+						onTouchTap = { this.call }
+					/>
+					<RaisedButton
+						ref 	   = { 'hangupButton' }
+						label 	   = { "Hang Up" }
+						secondary  = { true }
+						disabled   = { this.state.hangupButtonDisabled }
+						onTouchTap = { this.hangup }
+					/>
 				</CardActions>
+
 				<CardMedia>
 					<div>
-						<video muted autoPlay ref="localVideo" poster={LOCAL_POSTER} style={styles.video}>{BROWSER_MESSAGE}</video>
-						<video autoPlay ref="remoteVideo" poster={REMOTE_POSTER} style={styles.video}>{BROWSER_MESSAGE}</video>
+						<video
+							autoPlay = { true }
+							muted 	 = { true }
+							poster   = { LOCAL_POSTER }
+							ref 	 = { "localVideo" }
+							style 	 = { styles.video }
+						>
+							{BROWSER_MESSAGE}
+						</video>
+
+						<video
+							autoPlay = { true }
+							poster 	 = { REMOTE_POSTER }
+							ref 	 = { "remoteVideo" }
+							style 	 = { styles.video }
+						>
+							{BROWSER_MESSAGE}
+						</video>
 					</div>
 				</CardMedia>
 			</Card>
@@ -294,11 +307,4 @@ export default class WebRTC extends React.Component {
 	}
 };
 
-import { cyan700 } from 'material-ui/styles/colors';
-const styles = {
-	video : {
-		width: '50%',
-		border: '1px solid ' + cyan700,
-		boxSizing: 'border-box',
-	},
-};
+export default WebRTC;

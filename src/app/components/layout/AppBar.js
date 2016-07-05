@@ -53,10 +53,12 @@ export default ({ isAppbarFixed, isThemeDark, language, setTheme, switchLanguage
 					onTouchTap = { toggleAppbarFixed }
 				/>
 
+				{/*
 				<MenuItem 
 					primaryText = { language === 'english' ? "Switch to Spanish" : "Switch to English" }
 					onTouchTap = { switchLanguage }
 				/>
+				*/}
 			</IconMenu>
 		}
 

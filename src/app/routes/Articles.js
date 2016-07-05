@@ -8,8 +8,7 @@ class Articles extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			dataArticles: [],
-			content: <CircularProgress style={{ marginLeft:'auto', marginRight:'auto' }} />,
+			content: <CircularProgress value={70} mode="indeterminate" style={{ marginLeft:'auto', marginRight:'auto' }} />,
 		};
 	}
 
@@ -21,7 +20,7 @@ class Articles extends Component {
 					<ArticleCard
 						title    = { article.title }
 						subtitle = { article.date }
-						img      = { article.img.src }
+						image 	 = { article.img.src }
 						teaser   = { article.teaser }
 					/>
 				</div>
