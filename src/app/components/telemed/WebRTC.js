@@ -107,8 +107,10 @@ const onIceStateChange = (pc, event) => {
 	}
 }
 
-const LOCAL_POSTER = require('../../images/telemed/local-video.jpg');
-const REMOTE_POSTER = require('../../images/telemed/connecting.jpg');
+// const LOCAL_POSTER = require('../../images/telemed/local-video.jpg');
+const LOCAL_POSTER = 'https://firebasestorage.googleapis.com/v0/b/metromeduc.appspot.com/o/images%2Ftelemed%2Flocal-video.jpg?alt=media&token=1f2a7e2c-915f-46f0-b3d4-69fc1d84db9a';
+// const REMOTE_POSTER = require('../../images/telemed/connecting.jpg');
+const REMOTE_POSTER = 'https://firebasestorage.googleapis.com/v0/b/metromeduc.appspot.com/o/images%2Ftelemed%2Fconnecting.jpg?alt=media&token=fda31393-ed26-4064-ac8b-0459c534a444';
 const BROWSER_MESSAGE = "Your browser does not support video tags";
 
 class WebRTC extends Component {

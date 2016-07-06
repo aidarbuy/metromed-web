@@ -6,7 +6,6 @@ import ListItem from 'material-ui/List/ListItem';
 import ListItemDivider from '../ui/ListItemDivider';
 import React       from 'react';
 import { Table, TableHeaderColumn, TableRow, TableHeader, TableRowColumn, TableBody } from 'material-ui/Table';
-import threeMedics from '../../images/team/three-medics.jpg';
 
 function pairArray(arr) {
 	var arrPaired = [];
@@ -54,14 +53,11 @@ export default ({ accentColor, imgSubtitleColor, language, primaryColor, textCol
 				}}
 			/>
 		}>
-			<img src={threeMedics} style={{marginBottom:1}} />
+			<img src={'https://firebasestorage.googleapis.com/v0/b/metromeduc.appspot.com/o/images%2Fteam%2Fthree-medics.jpg?alt=media&token=41848778-abf1-49bf-95c5-864797eaedeb'} style={{marginBottom:1}} />
 		</CardMedia>
 
 		<CardText style={{ textAlign:'left' }}>
-			<h5>{language === 'english' ?
-				'At Metromed Urgent Care we treat patients of all ages, with a variety of conditions:' :
-				'En nuestra clínica, MetroMed Urgencias atendemos todas sus urgencias:'
-			}</h5>
+			<h5>At Metromed Urgent Care we treat patients of all ages, with a variety of conditions:</h5>
 
 			<Table className="conditions-two-columns" selectable={false}>
 				<TableBody displayRowCheckbox={false} stripedRows={true} selectable={false}>

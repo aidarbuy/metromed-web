@@ -75,9 +75,9 @@ class Article extends React.Component {
 				<article>
 					<Card style={{margin:0}}>
 						<CardHeader
-							title="Matthew Beckwith"
-							subtitle="Doctor of Medicine"
-							avatar={require('../images/doctors/matthew-100x100.jpg')}
+							title 	 = "Matthew Beckwith"
+							subtitle = "Doctor of Medicine"
+							avatar 	 = 'https://firebasestorage.googleapis.com/v0/b/metromeduc.appspot.com/o/images%2Fdoctors%2Fmatthew-100x100.jpg?alt=media&token=ca4e179f-1af4-4f30-88da-5b038d13c603'
 						/>
 
 						<CardMedia overlay={

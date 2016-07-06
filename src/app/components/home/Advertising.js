@@ -3,6 +3,7 @@ import image1Blur from '../../images/layerslider/image-1-blur2.jpg';
 import image2 from '../../images/layerslider/image-2.jpg';
 import image3 from '../../images/layerslider/image-3.jpg';
 import React from 'react';
+import { storage } from '../../data/firebase';
 
 const styles = {
 	main: {
@@ -184,14 +185,14 @@ export default () => (
 	<div id="layerslider" style={styles.main}>
 		<div className="ls-slide" data-ls="slidedelay:23000; transition2d: 15-18, 59-61, 90, 91, 30-32, 69-72, 40-43, 92, 96, 97, 75-79, 81, 82, 86, 87-89, 93-95, 111, 103-105, 109, 112">
 			<img className="ls-bg" alt="Slide background" src={image1} />
-			<img className="ls-layer" alt="Slide background blur" style={styles.bgBlur} src={image1Blur} data-ls="offsetxin:0; delayin:0000; durationin:2000" />
+			<img className="ls-layer" alt="Slide background blur" style={styles.bgBlur} src='https://firebasestorage.googleapis.com/v0/b/metromeduc.appspot.com/o/images%2Flayerslider%2Fimage-1-blur2.jpg?alt=media&token=f1014327-8c89-4cea-a722-d3b07aa016b4' data-ls="offsetxin:0; delayin:0000; durationin:2000" />
 			<h2 className="ls-l" style={styles.slideA.we}       data-ls="delayin: 0500; offsetxin:0; offsetyin:10; durationin:2000; offsetxout:0; offsetyout:0; durationout:2000; showuntil:4000;">WE</h2>
 			<h2 className="ls-l" style={styles.slideA.care}     data-ls="delayin: 0900; offsetxin:0; offsetyin:10; durationin:2000; offsetxout:0; offsetxout:0; durationout:2000; showuntil:4000;">CARE</h2>
 			<h2 className="ls-l" style={styles.slideA.about}    data-ls="delayin: 1300; offsetxin:0; offsetyin:10; durationin:2000; offsetxout:0; offsetxout:0; durationout:2000; showuntil:4000;">ABOUT</h2>
 			<h2 className="ls-l" style={styles.slideA.every}    data-ls="delayin: 1700; offsetxin:0; offsetyin:10; durationin:2000; offsetxout:0; offsetxout:0; durationout:2000; showuntil:4000;">EVERY</h2>
 			<h2 className="ls-l" style={styles.slideA.patient}  data-ls="delayin:2100; offsetxin:0; offsetyin:10; durationin:2000; offsetxout:0; offsetxout:0; durationout:2000; showuntil:4000;">PATIENT</h2>
 			<p className="ls-l" style={styles.slideA.spectrum} 	data-ls="delayin: 10000; offsetxin:0; offsetyin:10; durationin:2000; showuntil:4000; offsetxout:0; offsetyout:-10; durationout:2000; transition2d:all;">A wide spectrum of quality medical services<br/>and treatment for all age groups</p>
-			<p className="ls-l" style={styles.slideA.hours} 		data-ls="delayin:17500; offsetxin:0; offsetyin:10; durationin:2000; showuntil:3000; offsetxout:0; offsetyout:0; durationout:2000;">Monday &ndash; Friday: 10 am &ndash; 8 pm</p>
+			<p className="ls-l" style={styles.slideA.hours} 	data-ls="delayin:17500; offsetxin:0; offsetyin:10; durationin:2000; showuntil:3000; offsetxout:0; offsetyout:0; durationout:2000;">Monday &ndash; Friday: 10 am &ndash; 8 pm</p>
 		</div>
 
 
@@ -211,11 +212,11 @@ export default () => (
 					rotatexin:90; transformoriginin:50% top 0; offsetxout:-400;"
 			>t r e a t m e n t</p>
 
-			<h5 className="ls-l" style={styles.slideB.counseling} data-ls="offsetxin:0; delayin:2000; easingin:easeOutQuint; scalexin:0.8; scaleyin:0.8; offsetxout:0; durationout:750; scalexout:0.8; scaleyout:0.8;">Counseling</h5>
-			<h5 className="ls-l" style={styles.slideB.clinic} data-ls="offsetxin:0; delayin:2500; easingin:easeOutQuint; scalexin:0.8; scaleyin:0.8; offsetxout:0; durationout:750; scalexout:0.8; scaleyout:0.8;">Cardiac Clinic</h5>
-			<h5 className="ls-l" style={styles.slideB.pediatric} data-ls="offsetxin:0; delayin:3000; easingin:easeOutQuint; scalexin:0.8; scaleyin:0.8; offsetxout:0; durationout:750; scalexout:0.8; scaleyout:0.8;">Pediatric Clinic</h5>
+			<h5 className="ls-l" style={styles.slideB.counseling} 	 data-ls="offsetxin:0; delayin:2000; easingin:easeOutQuint; scalexin:0.8; scaleyin:0.8; offsetxout:0; durationout:750; scalexout:0.8; scaleyout:0.8;">Counseling</h5>
+			<h5 className="ls-l" style={styles.slideB.clinic} 		 data-ls="offsetxin:0; delayin:2500; easingin:easeOutQuint; scalexin:0.8; scaleyin:0.8; offsetxout:0; durationout:750; scalexout:0.8; scaleyout:0.8;">Cardiac Clinic</h5>
+			<h5 className="ls-l" style={styles.slideB.pediatric} 	 data-ls="offsetxin:0; delayin:3000; easingin:easeOutQuint; scalexin:0.8; scaleyin:0.8; offsetxout:0; durationout:750; scalexout:0.8; scaleyout:0.8;">Pediatric Clinic</h5>
 			<h5 className="ls-l" style={styles.slideB.gynecological} data-ls="offsetxin:0; delayin:3500; easingin:easeOutQuint; scalexin:0.8; scaleyin:0.8; offsetxout:0; durationout:750; scalexout:0.8; scaleyout:0.8;">Gynecological Clinic</h5>
-			<h5 className="ls-l" style={styles.slideB.lab} data-ls="offsetxin:0; delayin:4000; easingin:easeOutQuint; scalexin:0.8; scaleyin:0.8; offsetxout:0; durationout:750; scalexout:0.8; scaleyout:0.8;">Laboratory Analysis</h5>
+			<h5 className="ls-l" style={styles.slideB.lab} 			 data-ls="offsetxin:0; delayin:4000; easingin:easeOutQuint; scalexin:0.8; scaleyin:0.8; offsetxout:0; durationout:750; scalexout:0.8; scaleyout:0.8;">Laboratory Analysis</h5>
 
 			<h5 className="ls-l" style={styles.slideB.pluses[0]} data-ls="offsetxin:0; durationin:750; delayin:1800; easingin:easeOutQuint; rotatein:90; scalexin:0.5; scaleyin:0.5; offsetxout:0; durationout:750; rotateout:90; scalexout:0.5; scaleyout:0.5;">+</h5>
 			<h5 className="ls-l" style={styles.slideB.pluses[1]} data-ls="offsetxin:0; durationin:750; delayin:2300; easingin:easeOutQuint; rotatein:90; scalexin:0.5; scaleyin:0.5; offsetxout:0; durationout:750; rotateout:90; scalexout:0.5; scaleyout:0.5;">+</h5>

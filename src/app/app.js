@@ -20,15 +20,26 @@ Provider.childContextTypes = {
 
 // Render the main app react component into the app div.
 // For more details see: https://facebook.github.io/react/docs/top-level-api.html#react.render
+// ReactDOM.render(
+// 	<IntlProvider locale="en-GB">
+// 		<Provider store={createStore(reducer)}>
+// 			<Router
+// 				routes = { routes }
+// 				history = { browserHistory }
+// 				onUpdate = { ()=> window.scrollTo(0, 0) }
+// 			/>
+// 		</Provider>
+// 	</IntlProvider>,
+// 	document.getElementById('app')
+// );
+
 ReactDOM.render(
-	<IntlProvider locale="en-GB">
-		<Provider store={createStore(reducer)}>
-			<Router
-				routes = { routes }
-				history = { browserHistory }
-				onUpdate = { ()=> window.scrollTo(0, 0) }
-			/>
-		</Provider>
-	</IntlProvider>,
+	<Provider store={createStore(reducer)}>
+		<Router
+			routes = { routes }
+			history = { browserHistory }
+			onUpdate = { ()=> window.scrollTo(0, 0) }
+		/>
+	</Provider>,
 	document.getElementById('app')
 );

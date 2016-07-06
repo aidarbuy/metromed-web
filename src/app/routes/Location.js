@@ -8,7 +8,6 @@ import React from 'react';
 import { storage } from '../data/firebase';
 import PhonelinkRing from 'material-ui/svg-icons/communication/phonelink-ring';
 import MapsPlace from 'material-ui/svg-icons/maps/place';
-var pathReference = storage.ref('images/lounge-1200x600.jpg');
 
 class Location extends React.Component {
 	constructor(props) {
@@ -23,7 +22,7 @@ class Location extends React.Component {
 		const leesburg = "http://maps.google.com/?q=Leesburg, Virginia, 20176";
 		const phone = "(703)-687-4158";
 		const email = "info@metromeduc.com";
-		const loungeSrc = "https://firebasestorage.googleapis.com/v0/b/metromeduc.appspot.com/o/images%2Flounge-1200x600.jpg?alt=media&token=0e890ec5-52bf-472a-ba7a-4d576ae7d39a";
+		const loungeSrc = 'https://firebasestorage.googleapis.com/v0/b/metromeduc.appspot.com/o/images%2Finterior%2Flounge-1200x600.jpg?alt=media&token=7d9226dc-645f-47bf-801d-2a2ecf875294';
 		const text = "Clean and pleasant place";
 		const text2 = "We are right next to Wal-Mart.";
 		const title = "Our Contacts and Location";

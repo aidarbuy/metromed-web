@@ -40,7 +40,7 @@ export default ({ imgSubtitleColor, primaryColor, textColor }) => (
         }}
       ></CardTitle>
     }>
-      <img src={require('../../images/about/x-ray-710x399.jpg')} />
+      <img src={'https://firebasestorage.googleapis.com/v0/b/metromeduc.appspot.com/o/images%2Finterior%2Fx-ray-710x399.jpg?alt=media&token=ad530af1-0605-48a3-ae5c-1c7845d85f33'} />
     </CardMedia>
 
     <CardText>

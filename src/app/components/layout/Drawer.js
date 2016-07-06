@@ -55,7 +55,7 @@ export default ({ isDrawerOpen, setRoute, toggleDrawer, menuItems, menuItemColor
 					}
 				/>
 			}>
-				<img src={require('../../images/team/three-medics-thumb.jpg')} />
+				<img src='https://firebasestorage.googleapis.com/v0/b/metromeduc.appspot.com/o/images%2Fteam%2Fthree-medics-thumb.jpg?alt=media&token=3fa958ba-ffe1-4ea4-bbb6-6d732ce59c6b' />
 			</CardMedia>
 		</Card>
 
