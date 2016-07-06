@@ -10,7 +10,7 @@ class HomeArticles extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			content: <CircularProgress value={70} mode="indeterminate" style={{ marginLeft:'auto', marginRight:'auto' }} />,
+			content: <CircularProgress style={{ marginLeft:'auto', marginRight:'auto' }} />,
 		};
 	}
 
@@ -27,6 +27,7 @@ class HomeArticles extends React.Component {
 							title    = { article.title }
 							subtitle = { article.date }
 							image 	 = { article.img.src }
+							href 	 = { article.img.href }
 							teaser   = { article.teaser }
 						/>
 					</div>

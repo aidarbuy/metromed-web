@@ -3,7 +3,6 @@ import image1Blur from '../../images/layerslider/image-1-blur2.jpg';
 import image2 from '../../images/layerslider/image-2.jpg';
 import image3 from '../../images/layerslider/image-3.jpg';
 import React from 'react';
-import { storage } from '../../data/firebase';
 
 const styles = {
 	main: {

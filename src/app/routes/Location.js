@@ -5,7 +5,6 @@ import Helmet from 'react-helmet';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import React from 'react';
-import { storage } from '../data/firebase';
 import PhonelinkRing from 'material-ui/svg-icons/communication/phonelink-ring';
 import MapsPlace from 'material-ui/svg-icons/maps/place';
 
