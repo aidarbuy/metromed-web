@@ -10,6 +10,8 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { getShadowHexColor } from './utils/colors';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import React from 'react';
+
+// require('./styles/skeleton.scss');
 require('./styles/layout.scss');
 require('./styles/typography.scss');
 

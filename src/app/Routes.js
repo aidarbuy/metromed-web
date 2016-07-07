@@ -2,7 +2,6 @@ import About     from './routes/About';
 import Article   from './routes/Article';
 import Articles  from './routes/Articles';
 import Auth      from './routes/Auth';
-import Balance   from './routes/Balance';
 import Context   from './routes/Context';
 import Doctor    from './routes/Doctor';
 import Doctors   from './routes/Doctors';
@@ -15,7 +14,6 @@ import MuiTheme  from './routes/MuiTheme';
 import Palette   from './routes/Palette';
 import React     from "react";
 import { Route, Redirect, IndexRoute, NotFoundRoute }  from "react-router";
-import Router    from './routes/Router';
 import Services  from './routes/Services';
 import Telemed   from './routes/Telemed';
 import TestLab   from './routes/TestLab';
@@ -40,7 +38,6 @@ module.exports = (
     <Route path="/articles"     component={Articles}  />
     <Route path="/articles/:id" component={Article}   />
     <Route path="/auth"         component={Auth}      />
-    <Route path="/balance"      component={Balance}   />
     <Route path="/context"      component={Context}   />
     <Route path="/doctors"      component={Doctors}   />
     <Route path="/doctors/:id"  component={Doctor}    />
@@ -49,7 +46,6 @@ module.exports = (
     <Route path="/location"     component={Location}  />
     <Route path="/mui-theme"    component={MuiTheme}  />
     <Route path="/palette"      component={Palette}   />
-    <Route path="/router"       component={Router}    />
     <Route path="/services"     component={Services}  />
     <Route path="/telemed"      component={Telemed}   />
     <Route path="/test-lab"     component={TestLab}   />
